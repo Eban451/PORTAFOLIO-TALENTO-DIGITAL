@@ -1,0 +1,24 @@
+[
+    {
+        "id": 1,
+        "nombre": "Esteban",
+        "apellido": "Zuniga",
+        "correo": "eban316@gmail.com",
+        "password": "12345"
+    },
+    {
+        "id": 2,
+        "nombre": "Carlos",
+        "apellido": "Maldonado",
+        "correo": "cfmz@gmail.com",
+        "password": "1234"
+    },
+    {
+        "id": 3,
+        "nombre": "Felipe",
+        "apellido": "Perez de Arce",
+        "correo": "fperezdearcer@gmail.com",
+        "password": "12345"
+    }
+    
+]
