@@ -1,16 +1,14 @@
-# Integrantes
+# Integrant
 ```
-Andrea Jimenez (andreajimeneze)
+
 Esteban Zuñiga (Eban451)
-Juan Salas (JuanAndresSalas)
-Bryan Cabrera (BryanC7)
-```
+
 
 # Repositorio
-https://github.com/BryanC7/m6_sprint-grupal
+[https://github.com/BryanC7/m6_sprint-grupal](https://github.com/Eban451/Proyecto-Personal-Eban)
 
 ## Para que el proyecto funcione correctamente es necesario la instalación node.js, y mediante terminal con el comando "npm i" se deben instalar las siguientes dependencias:
-```bootstrap```
+```node```
 ```nodemon```
 ```express```
 ```hbs```
