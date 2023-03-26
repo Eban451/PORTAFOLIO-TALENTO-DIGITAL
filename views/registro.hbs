@@ -1,25 +1,26 @@
 {{> head}}
 
-<main>
-    <form style="width: 20rem;">
-        <div class="mb-3">
-            <label for="correo" class="form-label">Correo electrónico</label>
-            <input type="email" class="form-control" id="correo" aria-describedby="emailHelp">
-            <div id="emailHelp" class="form-text">Nunca compartiremos su correo electrónico con nadie más.</div>
-        </div>
-        <div class="mb-3 ">
-            <label class="form-label" for="nombre">Nombre</label>
-            <input type="text" class="form-control" id="nombre" name="nombre">
-        </div>
-        <div class="mb-3 ">
-            <label class="form-label" for="apellido">Apellidos</label>
-            <input type="text" class="form-control" id="apellido" name="apellido">
-        </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">Contraseña</label>
-            <input type="password" class="form-control" id="password" name="password">
-        </div>
-        
-        <button type="submit" class="btn btn-primary">Registrarse</button>
-        </form>
-</main>
+<body>
+  <main>
+    <form style="width: 20rem;" method="POST" action="/registro">
+      <div class="mb-3">
+        <label for="correo" class="form-label">Correo electrónico</label>
+        <input type="email" class="form-control" id="correo" aria-describedby="emailHelp" name="correo">
+        <div id="emailHelp" class="form-text">Nunca compartiremos su correo electrónico con nadie más.</div>
+      </div>
+      <div class="mb-3 ">
+        <label class="form-label" for="nombre">Nombre</label>
+        <input type="text" class="form-control" id="nombre" name="nombre">
+      </div>
+      <div class="mb-3 ">
+        <label class="form-label" for="apellido">Apellidos</label>
+        <input type="text" class="form-control" id="apellido" name="apellido">
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Contraseña</label>
+        <input type="password" class="form-control" id="password" name="password">
+      </div>
+      <button type="submit" class="btn btn-primary">Registrarse</button>
+    </form>
+  </main>
+</body>

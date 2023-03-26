@@ -78,8 +78,48 @@ router.get("/registro", (req, res) =>{
     res.render("registro")
 })
 
+
+// Route for handling the form submission
+router.post('/registro', (req, res) => {
+    // Get the data from the form submission
+    const correo = req.body.correo;
+    const nombre = req.body.nombre;
+    const apellido = req.body.apellido;
+    const password = req.body.password;
+  
+    // Read the existing users from the usuarios.json file
+    const usuarios = JSON.parse(fs.readFileSync('BD/usuarios.json'));
+  
+    // Generate a unique ID for the new user
+    const newId = usuarios.length + 1;
+  
+    // Create the new user object with the generated ID
+    const newUser = {
+      id: newId,
+      correo: correo,
+      nombre: nombre,
+      apellido: apellido,
+      password: password
+    };
+  
+    // Add the new user to the existing array of users
+    usuarios.push(newUser);
+  
+    // Write the updated array of users back to the usuarios.json file
+  fs.writeFile('BD/usuarios.json', JSON.stringify(usuarios), (err) => {
+    if (err) {
+      console.log(err);
+      res.send('Error al registrar el usuario.');
+    } else {
+      // Redirect the user to a confirmation page
+      res.render('login', { correo: correo });
+    }
+  });
+});
+
 router.get("*", (req, res) =>{
     res.render("error")
 })
 
 export default router
+
