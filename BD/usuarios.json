@@ -47,5 +47,12 @@
     "nombre": "Diego",
     "apellido": "Zuniga",
     "password": "112233"
+  },
+  {
+    "id": 8,
+    "correo": "catalinazuniga@gmail.com",
+    "nombre": "Catalina",
+    "apellido": "Zuniga",
+    "password": "12345"
   }
 ]
