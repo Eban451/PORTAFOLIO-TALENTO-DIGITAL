@@ -106,7 +106,7 @@ router.post('/registro', (req, res) => {
     usuarios.push(newUser);
   
     // Write the updated array of users back to the usuarios.json file
-  fs.writeFile('BD/usuarios.json', JSON.stringify(usuarios, null, 2), (err) => {
+  fs.writeFile('BD/usuarios.json', JSON.stringify(usuarios), (err) => {
     if (err) {
       console.log(err);
       res.send('Error al registrar el usuario.');
