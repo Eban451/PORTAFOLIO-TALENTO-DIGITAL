@@ -13,27 +13,32 @@
   <h1>Login</h1>
 
   <ul>
-    <% if (typeof errors !='undefined' ) { %>
-      <% errors.forEach(error=> { %>
-        <li>
-          <%= error.message %>
-        </li>
-        <% }) %>
-          <% } %>
+    {{#if errors}}
+    {{#each errors}}
+    <li>
+      {{this.message}}
+    </li>
+    {{/each}}
+    {{/if}}
   </ul>
 
   <ul>
     {{#if messages.success_msg}}
     <li>{{messages.success_msg}}</li>
     {{/if}}
-  </ul>s
+  </ul>
 
   <ul>
-    <% if (messages.error) { %>
-      <li>
-        <%= messages.error %>
-      </li>
-      <% } %>
+    {{#if messages.error}}
+    <li>
+      {{messages.error}}
+    </li>
+    {{/if}}
+
+    {{#if message}}
+    <p>{{message}}</p>
+    {{/if}}
+
   </ul>
 
   <form action="/users/login" method="POST">

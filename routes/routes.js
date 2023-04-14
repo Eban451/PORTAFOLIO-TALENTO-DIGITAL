@@ -1,48 +1,23 @@
 import { Router } from "express";
 import { pool } from "../dbConfig.js";
 import express from "express";
-import fs from "fs";
 import bodyParser from "body-parser";
 import passport from "passport";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import flash from "express-flash";
-import pg from 'pg';
 import bcrypt from 'bcrypt';
-import pgPromise from 'pg-promise';
-import passportLocal from 'passport-local';
-import { Strategy as LocalStrategy } from 'passport-local';
+
 
 const router = Router()
 
+import initializePassport from "../passportConfig.js";
+
+
+initializePassport(passport);
 
 router.use(express.urlencoded({ extended: false })); // MIDDLEWARE para enviar los datos del frontend al backend
 
-
-
-// const { Pool } = pg;
-
-
-// const pool = new Pool({
-//     user: "postgres",
-//     host: "localhost",
-//     database: "puntos", //nombre de database
-//     password: "12345",
-//     port: 5432
-
-// })
-
-import {leerArchivo} from "../public/js/functions.js" //Función para leer archivos almacenados en local
-
-//Constantes
-const pgp = pgPromise();
-const db = pgp('postgres://postgres:12345@localhost:5432/puntos');
-
-//Middleware usado para crear una estrategia de autenticación
-// const rutaUsuarios = "BD/usuarios.json" // Ruta a json con los usuarios "registrados"
-// const usuarios = await leerArchivo(rutaUsuarios) //Lectura y asignación json a variable usuarios
-//Variable
-let autenticacion = false;
 
 
 router.use(bodyParser.urlencoded({extended: true}))
@@ -56,6 +31,11 @@ router.use(session({
 
 }))
 
+// Funtion inside passport which initializes passport
+router.use(passport.initialize());
+// Store our variables to be persisted across the whole session. Works with app.use(Session) above
+router.use(passport.session());
+
 router.use(flash());
 
 router.use(passport.initialize())
@@ -67,17 +47,29 @@ router.get("/", (req, res) =>{
     res.render("index",{"titulo": "Página Personal"})
 })
 
-router.get("/users/login", (req, res) =>{
+router.get("/users/login",checkAuthenticated, (req, res) =>{
     res.render("login")
 })
 
-router.get("/users/registro", (req, res) =>{
+router.get("/users/registro",checkAuthenticated, (req, res) =>{
   res.render("registro")
 })
 
-router.get("/users/carto", (req, res) =>{
-res.render("carto")
+router.get("/users/carto",checkNotAuthenticated, (req, res) =>{
+  console.log(req.isAuthenticated());
+res.render("carto", { user: req.user.name })
 })
+
+router.get("/users/logout", (req, res) => {
+  req.logout(function(err) {
+    if (err) {
+      // Handle error, if any
+      console.error(err);
+    }
+    res.render("login", { message: "Te has desconectado" });
+    res.redirect("/users/login");
+  });
+});
 
 
 // Registro
@@ -151,78 +143,30 @@ router.post("/users/registro", async (req, res) => {
   }
 });
 
+// LOGIN
 
-// // LOGIN FUNCIONALIDAD
+router.post(
+  "/users/login",
+  passport.authenticate("local", {
+    successRedirect: "/users/carto",
+    failureRedirect: "/users/login",
+    failureFlash: true
+  })
+);
 
-// router.post('/login', (req, res) => {
-//     const email = req.body.email;
-//     const password = req.body.password;
+function checkAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return res.redirect("/users/carto");
+  }
+  next();
+}
 
-//     // Retrieve user from the database by email
-//     pool.query('SELECT * FROM usuarios WHERE email = $1', [email], (err, result) => {
-//         if (err) {
-//             console.error(err);
-//             res.status(500).send('Error logging in');
-//         } else if (result.rows.length === 0) {
-//             res.render('login', { error: 'Invalid email or password' });
-//         } else {
-//             const hashedPassword = result.rows[0].password;
-
-//             // Compare the provided password with the hashed password
-//             bcrypt.compare(password, hashedPassword, (err, isMatch) => {
-//                 if (err) {
-//                     console.error(err);
-//                     res.status(500).send('Error logging in');
-//                 } else if (isMatch) {
-//                     res.send(`Welcome ${email}!`);
-//                 } else {
-//                     res.render('login', { error: 'Invalid email or password' });
-//                 }
-//             });
-//         }
-//     });
-// });
-
-
-
-
-// // Route for handling the form submission
-// router.post('/registro', (req, res) => {
-//     // Get the data from the form submission
-//     const correo = req.body.correo;
-//     const nombre = req.body.nombre;
-//     const apellido = req.body.apellido;
-//     const password = req.body.password;
-  
-//     // Read the existing users from the usuarios.json file
-//     const usuarios = JSON.parse(fs.readFileSync('BD/usuarios.json'));
-  
-//     // Generate a unique ID for the new user
-//     const newId = usuarios.length + 1;
-  
-//     // Create the new user object with the generated ID
-//     const newUser = {
-//       id: newId,
-//       correo: correo,
-//       nombre: nombre,
-//       apellido: apellido,
-//       password: password
-//     };
-  
-//     // Add the new user to the existing array of users
-//     usuarios.push(newUser);
-  
-//     // Write the updated array of users back to the usuarios.json file
-//   fs.writeFile('BD/usuarios.json', JSON.stringify(usuarios, null, 2), (err) => {
-//     if (err) {
-//       console.log(err);
-//       res.send('Error al registrar el usuario.');
-//     } else {
-//       // Redirect the user to a confirmation page
-//       res.render('login', { correo: correo });
-//     }
-//   });
-// });
+function checkNotAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect("/users/login");
+}
 
 router.get("*", (req, res) =>{
     res.render("error")
