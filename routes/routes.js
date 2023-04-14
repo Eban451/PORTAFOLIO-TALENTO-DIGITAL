@@ -7,6 +7,8 @@ import cookieParser from "cookie-parser";
 import session from "express-session";
 import flash from "express-flash";
 import bcrypt from 'bcrypt';
+import hbs from 'hbs';
+
 
 
 const router = Router()
@@ -17,8 +19,6 @@ import initializePassport from "../passportConfig.js";
 initializePassport(passport);
 
 router.use(express.urlencoded({ extended: false })); // MIDDLEWARE para enviar los datos del frontend al backend
-
-
 
 router.use(bodyParser.urlencoded({extended: true}))
 
@@ -57,6 +57,10 @@ router.get("/users/registro",checkAuthenticated, (req, res) =>{
 
 router.get("/admin/control",checkAuthenticated, (req, res) =>{
   res.render("admin")
+})
+
+router.get("/your_template",checkAuthenticated, (req, res) =>{
+  res.render("your_template")
 })
 
 router.get("/users/carto",checkNotAuthenticated, (req, res) =>{
@@ -171,6 +175,28 @@ function checkNotAuthenticated(req, res, next) {
   }
   res.redirect("/users/login");
 }
+
+// Route for fetching data from the database
+router.get('/cards', (req, res) => {
+  // Query to fetch data from the database with required fields
+  const query = 'SELECT id, nombre, img, direccion, horario, ST_AsGeoJSON(geom) FROM museums';
+
+  // Execute the query and fetch data
+  pool.query(query)
+    .then((result) => {
+      // Render the fetched rows in a Handlebars template and send it as response
+      res.render('cards', { rows: result.rows });
+      console.log(result.rows);
+
+      // Call crearCards() function with the fetched data
+      crearCards(result.rows);
+    })
+    .catch((err) => {
+      console.error('Error fetching data from PostgreSQL database', err);
+    });
+});
+
+
 
 router.get("*", (req, res) =>{
     res.render("error")
