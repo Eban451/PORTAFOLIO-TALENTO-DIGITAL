@@ -20,14 +20,14 @@ initializePassport(passport);
 
 router.use(express.urlencoded({ extended: false })); // MIDDLEWARE para enviar los datos del frontend al backend
 
-router.use(bodyParser.urlencoded({extended: true}))
+router.use(bodyParser.urlencoded({ extended: true }))
 
 router.use(cookieParser("secretKey"))
 
 router.use(session({
-    secret:"secretKey",
-    saveUninitialized: false, 
-    resave:false
+  secret: "secretKey",
+  saveUninitialized: false,
+  resave: false
 
 }))
 
@@ -43,33 +43,33 @@ router.use(passport.session())
 
 
 
-router.get("/", (req, res) =>{
-    res.render("index",{"titulo": "Página Personal"})
+router.get("/", (req, res) => {
+  res.render("index", { "titulo": "Página Personal" })
 })
 
-router.get("/users/login",checkAuthenticated, (req, res) =>{
-    res.render("login")
+router.get("/users/login", checkAuthenticated, (req, res) => {
+  res.render("login")
 })
 
-router.get("/users/registro",checkAuthenticated, (req, res) =>{
+router.get("/users/registro", checkAuthenticated, (req, res) => {
   res.render("registro")
 })
 
-router.get("/admin/control",checkAuthenticated, (req, res) =>{
-  res.render("admin")
-})
+// router.get("/admin/control", checkAuthenticated, (req, res) => {
+//   res.render("admin")
+// })
 
-router.get("/your_template",checkAuthenticated, (req, res) =>{
+router.get("/your_template", checkAuthenticated, (req, res) => {
   res.render("your_template")
 })
 
-router.get("/users/carto",checkNotAuthenticated, (req, res) =>{
+router.get("/users/carto", checkNotAuthenticated, (req, res) => {
   console.log(req.isAuthenticated());
-res.render("carto", { user: req.user.name })
+  res.render("carto", { user: req.user.name })
 })
 
 router.get("/users/logout", (req, res) => {
-  req.logout(function(err) {
+  req.logout(function (err) {
     if (err) {
       // Handle error, if any
       console.error(err);
@@ -176,20 +176,24 @@ function checkNotAuthenticated(req, res, next) {
   res.redirect("/users/login");
 }
 
-// Route for fetching data from the database
-router.get('/cards', (req, res) => {
-  // Query to fetch data from the database with required fields
+router.get('/admin/control', (req, res) => {
   const query = 'SELECT id, nombre, img, direccion, horario, ST_AsGeoJSON(geom) FROM museums';
 
-  // Execute the query and fetch data
   pool.query(query)
     .then((result) => {
-      // Render the fetched rows in a Handlebars template and send it as response
-      res.render('cards', { rows: result.rows });
-      console.log(result.rows);
-
-      // Call crearCards() function with the fetched data
-      crearCards(result.rows);
+      const rows = result.rows.map((row) => {
+        const { coordinates } = JSON.parse(row.st_asgeojson);
+        return {
+          id: row.id,
+          nombre: row.nombre,
+          img: row.img,
+          direccion: row.direccion,
+          horario: row.horario,
+          coordinates,
+        };
+      });
+      res.render('admin', { rows });
+      console.log(rows.map((row) => row.coordinates));
     })
     .catch((err) => {
       console.error('Error fetching data from PostgreSQL database', err);
@@ -198,8 +202,8 @@ router.get('/cards', (req, res) => {
 
 
 
-router.get("*", (req, res) =>{
-    res.render("error")
+router.get("*", (req, res) => {
+  res.render("error")
 })
 
 export default router
