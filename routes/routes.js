@@ -55,6 +55,10 @@ router.get("/users/registro",checkAuthenticated, (req, res) =>{
   res.render("registro")
 })
 
+router.get("/admin/control",checkAuthenticated, (req, res) =>{
+  res.render("admin")
+})
+
 router.get("/users/carto",checkNotAuthenticated, (req, res) =>{
   console.log(req.isAuthenticated());
 res.render("carto", { user: req.user.name })
