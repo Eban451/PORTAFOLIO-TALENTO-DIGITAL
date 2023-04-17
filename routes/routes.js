@@ -63,6 +63,7 @@ router.get("/mapa", checkAuthenticated, (req, res) => {
   res.render("mapa")
 })
 
+
 router.get("/users/carto", checkNotAuthenticated, (req, res) => {
   console.log(req.isAuthenticated());
   res.render("carto", { user: req.user.name })
