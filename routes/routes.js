@@ -59,8 +59,8 @@ router.get("/users/registro", checkAuthenticated, (req, res) => {
 //   res.render("admin")
 // })
 
-router.get("/your_template", checkAuthenticated, (req, res) => {
-  res.render("your_template")
+router.get("/mapa", checkAuthenticated, (req, res) => {
+  res.render("mapa")
 })
 
 router.get("/users/carto", checkNotAuthenticated, (req, res) => {
@@ -175,6 +175,8 @@ function checkNotAuthenticated(req, res, next) {
   }
   res.redirect("/users/login");
 }
+
+// ADMIN
 
 router.get('/admin/control', (req, res) => {
   const query = 'SELECT id, nombre, img, direccion, horario, ST_AsGeoJSON(geom) FROM museums';
