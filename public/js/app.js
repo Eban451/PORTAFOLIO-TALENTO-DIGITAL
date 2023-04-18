@@ -2,37 +2,39 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiZWJhbjQ1MSIsImEiOiJjbGRqZHMxdjMxbDcwM3Zud3R4M
 const map = new mapboxgl.Map({
     container: 'map', // container ID
     // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
-    style: 'mapbox://styles/mapbox/streets-v12', // style URL
+    style: 'mapbox://styles/mapbox/streets-v11', // style URL
     center: [-71.61, -33.04], // starting position [lng, lat]
     zoom: 13, // starting zoom
     language: 'es'
 });
 
-import { pool } from "../dbConfig.js";
+console.log("AAA")
 
-router.get('/admin/control', (req, res) => {
-    const query = 'SELECT id, nombre, img, direccion, horario, ST_AsGeoJSON(geom) FROM museums';
+// import { pool } from "../dbConfig.js";
+
+// router.get('/admin/control', (req, res) => {
+//     const query = 'SELECT id, nombre, img, direccion, horario, ST_AsGeoJSON(geom) FROM museums';
   
-    pool.query(query)
-      .then((result) => {
-        const rows = result.rows.map((row) => {
-          const { coordinates } = JSON.parse(row.st_asgeojson);
-          return {
-            id: row.id,
-            nombre: row.nombre,
-            img: row.img,
-            direccion: row.direccion,
-            horario: row.horario,
-            coordinates,
-          };
-        });
-        res.render('admin', { rows });
-        console.log(rows.map((row) => row.coordinates));
-      })
-      .catch((err) => {
-        console.error('Error fetching data from PostgreSQL database', err);
-      });
-  });
+//     pool.query(query)
+//       .then((result) => {
+//         const rows = result.rows.map((row) => {
+//           const { coordinates } = JSON.parse(row.st_asgeojson);
+//           return {
+//             id: row.id,
+//             nombre: row.nombre,
+//             img: row.img,
+//             direccion: row.direccion,
+//             horario: row.horario,
+//             coordinates,
+//           };
+//         });
+//         res.render('admin', { rows });
+//         console.log(rows.map((row) => row.coordinates));
+//       })
+//       .catch((err) => {
+//         console.error('Error fetching data from PostgreSQL database', err);
+//       });
+//   });
 
 let markersVisible = true;
 

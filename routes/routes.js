@@ -59,9 +59,9 @@ router.get("/users/registro", checkAuthenticated, (req, res) => {
 //   res.render("admin")
 // })
 
-router.get("/mapa", checkAuthenticated, (req, res) => {
-  res.render("mapa")
-})
+// router.get("/mapa", checkAuthenticated, (req, res) => {
+//   res.render("mapa")
+// })
 
 
 router.get("/users/carto", checkNotAuthenticated, (req, res) => {
@@ -177,9 +177,9 @@ function checkNotAuthenticated(req, res, next) {
   res.redirect("/users/login");
 }
 
-// ADMIN
+//// ADMIN
 
-router.get('/admin/control', (req, res) => {
+router.get('/mapa', (req, res) => {
   const query = 'SELECT id, nombre, img, direccion, horario, ST_AsGeoJSON(geom) FROM museums';
 
   pool.query(query)
@@ -195,12 +195,13 @@ router.get('/admin/control', (req, res) => {
           coordinates,
         };
       });
-      res.render('admin', { rows });
+      res.render('mapa');
       console.log(rows.map((row) => row.coordinates));
     })
     .catch((err) => {
       console.error('Error fetching data from PostgreSQL database', err);
     });
+    console.log("SI?")
 });
 
 
