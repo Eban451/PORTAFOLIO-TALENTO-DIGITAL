@@ -61,6 +61,13 @@ router.get("/users/registro", checkAuthenticated, (req, res) => {
   res.render("registro")
 })
 
+router.get("/admin/control", async (req, res) => {
+  const resultado = await fetch("http://localhost:4000/api/v1/puntos2");
+  const data = await resultado.json();
+  console.log(data)
+  res.render("admin", { "museums": data });
+});
+
 // router.get("/admin/control", checkAuthenticated, (req, res) => {
 //   res.render("admin")
 // })
@@ -207,7 +214,7 @@ router.get('/mapa', (req, res) => {
     .catch((err) => {
       console.error('Error fetching data from PostgreSQL database', err);
     });
-    console.log("SI?")
+  console.log("SI?")
 });
 
 // Mantenedor Página
@@ -226,13 +233,13 @@ router.delete("/mantenedor/:id", async (req, res) => {
   console.log("método eliminar")
   const { id } = req.params
   const resultado = await fetch("http://localhost:4000/api/v1/users/" + id,
-      { method: 'DELETE' });
+    { method: 'DELETE' });
   if (resultado.status == 200) {
-      const datos = await fetch("http://localhost:4000/api/v1/users");
-      const data = await datos.json();
-      res.render("mantenedor", { "users": data });
+    const datos = await fetch("http://localhost:4000/api/v1/users");
+    const data = await datos.json();
+    res.render("mantenedor", { "users": data });
   } else {
-      res.render("error", { "error": "Problemas al Eliminar registro" });
+    res.render("error", { "error": "Problemas al Eliminar registro" });
   }
 
 });
@@ -241,21 +248,21 @@ router.delete("/mantenedor/:id", async (req, res) => {
 
 router.post("/mantenedor", async (req, res) => {
   try {
-      const { name, email, password } = req.body;
-      const hashedPassword = await bcrypt.hash(password, 10);
-      console.log(hashedPassword)
-      const resultado = await fetch("http://localhost:4000/api/v1/users", {
-          method: "POST",
-          body: JSON.stringify({ name, email, password: hashedPassword }),
-          headers: {
-              "Content-Type": "application/json"
-          }
-      })
-      const datos = await fetch("http://localhost:4000/api/v1/users");
-      const data = await datos.json();
-      res.render("mantenedor", { "users": data });
+    const { name, email, password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    console.log(hashedPassword)
+    const resultado = await fetch("http://localhost:4000/api/v1/users", {
+      method: "POST",
+      body: JSON.stringify({ name, email, password: hashedPassword }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    const datos = await fetch("http://localhost:4000/api/v1/users");
+    const data = await datos.json();
+    res.render("mantenedor", { "users": data });
   } catch (e) {
-      res.render("error", { "error": "Problemas al Insertar registro" });
+    res.render("error", { "error": "Problemas al Insertar registro" });
   }
 });
 

@@ -214,18 +214,18 @@
                                 class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3
                                 row-cols-xl-4 justify-content-center">
 
-                                {{#each rows}}
+                                {{#each museums}}
                                 <div class="card" style="width: 18rem;">
                                     <img class="card-img-top" src="{{img}}"
                                         alt="Card image cap">
                                     <div class="card-body">
                                         <h5 class="card-title">{{nombre}}</h5>
                                         <p class="card-text">{{direccion}}</p>
-                                        <p>A: {{coordinates}}</p>
+                                        <p>A: {{geometry}}</p>
                                         <a href="#" class="btn btn-primary">Editar
-                                            {{st_asgeojson}}</a>
+                                            </a>
                                             <a href="#" class="btn btn-primary">Borrar
-                                            {{st_asgeojson}}</a>
+                                            </a>
                                     </div>
                                 </div>
                                 {{/each}}
