@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Mantenedor</title>
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+            />
+    </head>
+    <body>
+
+        <nav> <a href="/">Home</a>
+        <a href="/registro">Registro</a>  </nav>
+
+
+
+        <table>
+            <tr>
+                <th>#</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr>
+                <form id="formulario" action="/mantenedor" method="POST">
+                    <td></td>
+                    <td><input type="text" id="in_name" name="name"
+                            placeholder="Name"></td>
+                    <td><input type="text" id="in_email" name="email"
+                            placeholder="Email"></td>
+                            <td><input type="text" id="in_password" name="password"
+                            placeholder="Password"></td>
+                    <td><button id="btn_add"><span
+                                class="material-symbols-outlined">
+                                add
+                            </span></button>
+                        <button id="btn_edit" hidden><span
+                                class="material-symbols-outlined">
+                                edit
+                            </span></button>
+                    </td>
+                </form>
+            </tr>
+
+            {{#each users}}
+            <tr id="tr-{{id}}">
+                <td>{{id}}</td>
+                <td>{{name}} </td>
+                <td> {{email}}</td>
+                <td><a href="#" onclick="editar({{id}})"><span
+                            class="material-symbols-outlined">
+                            edit
+                        </span></a>
+                </td>
+                <td>
+                    <a href="/mantenedor/{{id}}?_method=delete"><span
+                            class="material-symbols-outlined">
+                            delete
+                        </span></a>
+                </td>
+            </tr>
+
+            {{/each}}
+        </table>
+
+        <script>
+            function editar(id){
+                const tr = document.getElementById(`tr-${id}`);
+                const td_name= tr.children[1].textContent;
+                const td_email= tr.children[2].textContent;
+                document.getElementById("in_name").value= td_name;
+                document.getElementById("in_email").value= td_email;
+                document.getElementById("btn_add").hidden =true;
+                document.getElementById("btn_edit").hidden =false;
+                const form = document.getElementById("formulario");
+                form.action = `/mantenedor/${id}?_method=put`
+                console.dir(form)
+            }
+        </script>
+    </body>
+</html>

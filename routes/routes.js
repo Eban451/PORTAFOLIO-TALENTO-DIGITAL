@@ -8,6 +8,8 @@ import session from "express-session";
 import flash from "express-flash";
 import bcrypt from 'bcrypt';
 import hbs from 'hbs';
+import methodOverride from 'method-override'
+
 
 
 
@@ -41,15 +43,19 @@ router.use(flash());
 router.use(passport.initialize())
 router.use(passport.session())
 
-
+router.use(methodOverride("_method", { methods: ["GET", "POST"] }));
 
 router.get("/", (req, res) => {
   res.render("index", { "titulo": "Página Personal" })
 })
 
-router.get("/users/login", checkAuthenticated, (req, res) => {
-  res.render("login")
-})
+router.get("/users/login", async (req, res) => {
+  //const resultado = await pool.query("select  * from personas");
+  //console.log(resultado.rows);
+  const resultado = await fetch("http://localhost:4000/api/v1/users");
+  const data = await resultado.json();
+  res.render("login", { "users": data });
+});
 
 router.get("/users/registro", checkAuthenticated, (req, res) => {
   res.render("registro")
@@ -196,7 +202,7 @@ router.get('/mapa', (req, res) => {
         };
       });
       res.render('mapa');
-      console.log(rows.map((row) => row.coordinates));
+      console.log(rows.map((row) => row));
     })
     .catch((err) => {
       console.error('Error fetching data from PostgreSQL database', err);
@@ -204,7 +210,54 @@ router.get('/mapa', (req, res) => {
     console.log("SI?")
 });
 
+// Mantenedor Página
 
+router.get("/mantenedor", async (req, res) => {
+  //const resultado = await pool.query("select  * from personas");
+  //console.log(resultado.rows);
+  const resultado = await fetch("http://localhost:4000/api/v1/users");
+  const data = await resultado.json();
+  res.render("mantenedor", { "users": data });
+});
+
+// Mantenedor DELETE
+
+router.delete("/mantenedor/:id", async (req, res) => {
+  console.log("método eliminar")
+  const { id } = req.params
+  const resultado = await fetch("http://localhost:4000/api/v1/users/" + id,
+      { method: 'DELETE' });
+  if (resultado.status == 200) {
+      const datos = await fetch("http://localhost:4000/api/v1/users");
+      const data = await datos.json();
+      res.render("mantenedor", { "users": data });
+  } else {
+      res.render("error", { "error": "Problemas al Eliminar registro" });
+  }
+
+});
+
+// Mantenedor PUT
+
+router.post("/mantenedor", async (req, res) => {
+  try {
+      const { name, email, password } = req.body;
+      const hashedPassword = await bcrypt.hash(password, 10);
+      console.log(hashedPassword)
+      const resultado = await fetch("http://localhost:4000/api/v1/users", {
+          method: "POST",
+          body: JSON.stringify({ name, email, password: hashedPassword }),
+          headers: {
+              "Content-Type": "application/json"
+          }
+      })
+      const datos = await fetch("http://localhost:4000/api/v1/users");
+      const data = await datos.json();
+      res.render("mantenedor", { "users": data });
+  } catch (e) {
+      res.render("error", { "error": "Problemas al Insertar registro" });
+  }
+});
 
 router.get("*", (req, res) => {
   res.render("error")
