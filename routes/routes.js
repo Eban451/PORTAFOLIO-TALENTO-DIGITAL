@@ -64,7 +64,7 @@ router.get("/users/registro", checkAuthenticated, (req, res) => {
 router.get("/admin/control", async (req, res) => {
   const resultado = await fetch("http://localhost:4000/api/v1/puntos2");
   const data = await resultado.json();
-  // console.log(data)
+  console.log(data)
   res.render("admin", { "museums": data });
 });
 
