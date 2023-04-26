@@ -72,9 +72,9 @@ router.get("/admin/control", async (req, res) => {
 //   res.render("admin")
 // })
 
-// router.get("/mapa", checkAuthenticated, (req, res) => {
-//   res.render("mapa")
-// })
+router.get("/mapa", checkAuthenticated, (req, res) => {
+  res.render("mapa")
+})
 
 
 router.get("/users/carto", checkNotAuthenticated, (req, res) => {
@@ -192,30 +192,30 @@ function checkNotAuthenticated(req, res, next) {
 
 //// ADMIN
 
-router.get('/mapa', (req, res) => {
-  const query = 'SELECT id, nombre, img, direccion, horario, ST_AsGeoJSON(geom) FROM museums';
+// router.get('/mapa', (req, res) => {
+//   const query = 'SELECT id, nombre, img, direccion, horario, ST_AsGeoJSON(geom) FROM museums';
 
-  pool.query(query)
-    .then((result) => {
-      const rows = result.rows.map((row) => {
-        const { coordinates } = JSON.parse(row.st_asgeojson);
-        return {
-          id: row.id,
-          nombre: row.nombre,
-          img: row.img,
-          direccion: row.direccion,
-          horario: row.horario,
-          coordinates,
-        };
-      });
-      res.render('mapa');
-      console.log(rows.map((row) => row));
-    })
-    .catch((err) => {
-      console.error('Error fetching data from PostgreSQL database', err);
-    });
-  console.log("SI?")
-});
+//   pool.query(query)
+//     .then((result) => {
+//       const rows = result.rows.map((row) => {
+//         const { coordinates } = JSON.parse(row.st_asgeojson);
+//         return {
+//           id: row.id,
+//           nombre: row.nombre,
+//           img: row.img,
+//           direccion: row.direccion,
+//           horario: row.horario,
+//           coordinates,
+//         };
+//       });
+//       res.render('mapa');
+//       console.log(rows.map((row) => row));
+//     })
+//     .catch((err) => {
+//       console.error('Error fetching data from PostgreSQL database', err);
+//     });
+//   console.log("SI?")
+// });
 
 // Mantenedor Página
 
