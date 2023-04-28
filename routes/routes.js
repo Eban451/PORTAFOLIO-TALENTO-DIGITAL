@@ -50,8 +50,6 @@ router.get("/", (req, res) => {
 })
 
 router.get("/users/login", async (req, res) => {
-  //const resultado = await pool.query("select  * from personas");
-  //console.log(resultado.rows);
   const resultado = await fetch("http://localhost:4000/api/v1/users");
   const data = await resultado.json();
   res.render("login", { "users": data });
@@ -96,74 +94,55 @@ router.get("/users/logout", (req, res) => {
 
 // Registro
 
-router.post("/users/registro", async (req, res) => {
-  let { name, email, password, password2 } = req.body;
+router.post("/registro", async (req, res) => {
+  const { name, email, password } = req.body;
 
   let errors = [];
 
-  console.log({
-    name,
-    email,
-    password,
-    password2
-  });
-
-  if (!name || !email || !password || !password2) {
-    errors.push({ message: "Please enter all fields" });
+  if (!name || !email || !password) {
+    errors.push("Please enter all fields");
   }
 
   if (password.length < 6) {
-    errors.push({ message: "Password must be at least 6 characters long" });
+    errors.push("Password must be at least 6 characters long");
   }
 
-  if (password !== password2) {
-    errors.push({ message: "Passwords do not match" });
+  // Validate email format using regular expression
+  const emailRegex = /\S+@\S+\.\S+/;
+  if (!emailRegex.test(email)) {
+    errors.push("Please enter a valid email address");
   }
 
-  if (errors.length > 0) {
-    res.render("registro", { errors, name, email, password, password2 });
-  } else {
-    try {
-      const hashedPassword = await bcrypt.hash(password, 10); // Declare and initialize hashedPassword
-      console.log(hashedPassword);
-      // Validation passed
-      pool.query(
-        `SELECT * FROM users
-          WHERE email = $1`,
-        [email],
-        (err, results) => {
-          if (err) {
-            console.log(err);
-          }
-          console.log(results.rows);
-
-          if (results.rows.length > 0) {
-            return res.render("registro", {
-              message: "Email already registered"
-            });
-          } else {
-            pool.query(
-              `INSERT INTO users (name, email, password)
-                  VALUES ($1, $2, $3)
-                  RETURNING id, password`,
-              [name, email, hashedPassword],
-              (err, results) => {
-                if (err) {
-                  throw err;
-                }
-                console.log(results.rows);
-                req.flash("success_msg", "You are now registered. Please log in");
-                res.redirect("/users/login");
-              }
-            );
-          }
-        }
-      );
-    } catch (error) {
-      console.log(error);
+  try {
+    // Check if email already exists in database
+    const datos = await fetch("http://localhost:4000/api/v1/users");
+    const data = await datos.json();
+    const userExists = data.some((user) => user.email === email);
+    if (userExists) {
+      errors.push("This email is already registered");
     }
+
+    if (errors.length > 0) {
+      return res.render("registro", { errors, name, email, password });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const userResponse = await fetch("http://localhost:4000/api/v1/users", {
+      method: "POST",
+      body: JSON.stringify({ name, email, password: hashedPassword }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    res.redirect("/mantenedor");
+  } catch (error) {
+    console.log(error);
+    res.render("error", { error: "Problems creating user" });
   }
 });
+
+
 
 // LOGIN
 
