@@ -146,8 +146,7 @@ router.post("/registro", async (req, res) => {
 
 // LOGIN
 
-router.post(
-  "/users/login",
+router.post("/users/login",
   passport.authenticate("local", {
     successRedirect: "/users/carto",
     failureRedirect: "/users/login",
