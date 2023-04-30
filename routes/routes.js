@@ -92,7 +92,7 @@ router.get("/users/logout", (req, res) => {
 });
 
 
-// Registro
+// Registro Usuarios
 
 router.post("/registro", async (req, res) => {
   const { name, email, password } = req.body;
