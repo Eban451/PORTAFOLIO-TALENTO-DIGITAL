@@ -115,7 +115,7 @@ router.post("/registro", async (req, res) => {
 
   try {
     // Check if email already exists in database
-    const datos = await fetch("http://localhost:4000/api/v1/users");
+    const datos = await fetch("http://localhost:4000/api/v1/users3");
     const data = await datos.json();
     const userExists = data.some((user) => user.email === email);
     if (userExists) {
@@ -127,7 +127,7 @@ router.post("/registro", async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const userResponse = await fetch("http://localhost:4000/api/v1/users", {
+    const userResponse = await fetch("http://localhost:4000/api/v1/users3", {
       method: "POST",
       body: JSON.stringify({ name, email, password: hashedPassword }),
       headers: {
@@ -227,22 +227,45 @@ router.delete("/mantenedor/:id", async (req, res) => {
 
 router.post("/mantenedor", async (req, res) => {
   try {
-    const { name, email, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-    console.log(hashedPassword)
-    const resultado = await fetch("http://localhost:4000/api/v1/users", {
-      method: "POST",
-      body: JSON.stringify({ name, email, password: hashedPassword }),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-    const datos = await fetch("http://localhost:4000/api/v1/users");
-    const data = await datos.json();
-    res.render("mantenedor", { "users": data });
+      const { name, email, password, categoria } = req.body;
+      const hashedPassword = await bcrypt.hash(password, 10);
+      // console.log(hashedPassword)
+      const resultado = await fetch("http://localhost:4000/api/v1/users", {
+          method: "POST",
+          body: JSON.stringify({ name, email, password: hashedPassword, categoria }),
+          headers: {
+              "Content-Type": "application/json"
+          }
+      })
+      const datos = await fetch("http://localhost:4000/api/v1/users");
+      const data = await datos.json();
+      res.render("mantenedor", { "users": data });
   } catch (e) {
-    res.render("error", { "error": "Problemas al Insertar registro" });
+      res.render("error", { "error": "Problemas al Insertar registro" });
   }
+});
+
+// EDITAR
+
+router.put("/mantenedor/:id", async (req, res) => {
+  try {
+      const { id } = req.params;
+      const { name, email, password, categoria } = req.body;
+      const resultado = await fetch(`http://localhost:4000/api/v1/users/${id}`, {
+          method: "PUT",
+          body: JSON.stringify({ id, name, email, password, categoria }),
+          headers: {
+              "Content-Type": "application/json"
+          }
+      })
+      const datos = await fetch(`http://localhost:4000/api/v1/users/`);
+      const data = await datos.json();
+      res.render("mantenedor", { "users": data });
+  } catch (e) {
+      res.render("error", { "error": "Problemas al Modificar registro" });
+  }
+
+
 });
 
 router.get("*", (req, res) => {
