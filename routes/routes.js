@@ -49,7 +49,7 @@ router.get("/", (req, res) => {
   res.render("index", { "titulo": "Página Personal" })
 })
 
-router.get("/users/login", async (req, res) => {
+router.get("/users/login", checkAuthenticated, async (req, res) => {
   const resultado = await fetch("http://localhost:4000/api/v1/users");
   const data = await resultado.json();
   res.render("login", { "users": data });
@@ -76,8 +76,16 @@ router.get("/mapa", checkAuthenticated, (req, res) => {
 
 
 router.get("/users/carto", checkNotAuthenticated, (req, res) => {
-  console.log(req.isAuthenticated());
+  // console.log(req.isAuthenticated());
   res.render("carto", { user: req.user.name })
+})
+
+router.get("/admin/landing", checkNotAuthenticated, checkCategoria1, (req, res) => {
+  res.render("landingadmin", { user: req.user.name })
+})
+
+router.get("/admin/colab", checkNotAuthenticated, checkCategoria2, (req, res) => {
+  res.render("landingcolab")
 })
 
 router.get("/users/logout", (req, res) => {
@@ -92,7 +100,7 @@ router.get("/users/logout", (req, res) => {
 });
 
 
-// Registro
+// Registro Usuarios
 
 router.post("/registro", async (req, res) => {
   const { name, email, password } = req.body;
@@ -115,7 +123,7 @@ router.post("/registro", async (req, res) => {
 
   try {
     // Check if email already exists in database
-    const datos = await fetch("http://localhost:4000/api/v1/users");
+    const datos = await fetch("http://localhost:4000/api/v1/users3");
     const data = await datos.json();
     const userExists = data.some((user) => user.email === email);
     if (userExists) {
@@ -127,7 +135,7 @@ router.post("/registro", async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const userResponse = await fetch("http://localhost:4000/api/v1/users", {
+    const userResponse = await fetch("http://localhost:4000/api/v1/users3", {
       method: "POST",
       body: JSON.stringify({ name, email, password: hashedPassword }),
       headers: {
@@ -144,19 +152,32 @@ router.post("/registro", async (req, res) => {
 
 
 
-// LOGIN
+// LOGIN Y AUTENTIFICACIÓN !
 
 router.post("/users/login",
   passport.authenticate("local", {
-    successRedirect: "/users/carto",
     failureRedirect: "/users/login",
     failureFlash: true
-  })
+  }),
+  function(req, res) {
+    if (req.user.categoria === 1) {
+      return res.redirect("/admin/landing");
+    } else if (req.user.categoria === 2) {
+      return res.redirect("/admin/colab");
+    }
+    return res.redirect("/users/carto");
+  }
 );
 
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
-    return res.redirect("/users/carto");
+    if (req.user.categoria === 1) {
+      return res.redirect("/admin/landing");
+    } else if (req.user.categoria === 2) {
+      return res.redirect("/admin/colab");
+    } else {
+      return res.redirect("/users/carto");
+    }
   }
   next();
 }
@@ -166,6 +187,22 @@ function checkNotAuthenticated(req, res, next) {
     return next();
   }
   res.redirect("/users/login");
+}
+
+function checkCategoria1(req, res, next) {
+  if (req.isAuthenticated() && req.user.categoria === 1) {
+    return next();
+  } else if (req.isAuthenticated() && req.user.categoria === 2) {
+    return res.redirect("/admin/colab");
+  }
+  res.redirect("/users/carto");
+}
+
+function checkCategoria2(req, res, next) {
+  if (req.isAuthenticated() && (req.user.categoria === 1 || req.user.categoria === 2)) {
+    return next();
+  }
+  res.redirect("/users/carto");
 }
 
 //// ADMIN
@@ -195,9 +232,10 @@ function checkNotAuthenticated(req, res, next) {
 //   console.log("SI?")
 // });
 
+
 // Mantenedor Página
 
-router.get("/mantenedor", async (req, res) => {
+router.get("/mantenedor", checkNotAuthenticated, checkCategoria1, async (req, res) => {
   //const resultado = await pool.query("select  * from personas");
   //console.log(resultado.rows);
   const resultado = await fetch("http://localhost:4000/api/v1/users");
@@ -226,22 +264,45 @@ router.delete("/mantenedor/:id", async (req, res) => {
 
 router.post("/mantenedor", async (req, res) => {
   try {
-    const { name, email, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-    console.log(hashedPassword)
-    const resultado = await fetch("http://localhost:4000/api/v1/users", {
-      method: "POST",
-      body: JSON.stringify({ name, email, password: hashedPassword }),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-    const datos = await fetch("http://localhost:4000/api/v1/users");
-    const data = await datos.json();
-    res.render("mantenedor", { "users": data });
+      const { name, email, password, categoria } = req.body;
+      const hashedPassword = await bcrypt.hash(password, 10);
+      // console.log(hashedPassword)
+      const resultado = await fetch("http://localhost:4000/api/v1/users", {
+          method: "POST",
+          body: JSON.stringify({ name, email, password: hashedPassword, categoria }),
+          headers: {
+              "Content-Type": "application/json"
+          }
+      })
+      const datos = await fetch("http://localhost:4000/api/v1/users");
+      const data = await datos.json();
+      res.render("mantenedor", { "users": data });
   } catch (e) {
-    res.render("error", { "error": "Problemas al Insertar registro" });
+      res.render("error", { "error": "Problemas al Insertar registro" });
   }
+});
+
+// EDITAR
+
+router.put("/mantenedor/:id", async (req, res) => {
+  try {
+      const { id } = req.params;
+      const { name, email, password, categoria } = req.body;
+      const resultado = await fetch(`http://localhost:4000/api/v1/users/${id}`, {
+          method: "PUT",
+          body: JSON.stringify({ id, name, email, password, categoria }),
+          headers: {
+              "Content-Type": "application/json"
+          }
+      })
+      const datos = await fetch(`http://localhost:4000/api/v1/users/`);
+      const data = await datos.json();
+      res.render("mantenedor", { "users": data });
+  } catch (e) {
+      res.render("error", { "error": "Problemas al Modificar registro" });
+  }
+
+
 });
 
 router.get("*", (req, res) => {
