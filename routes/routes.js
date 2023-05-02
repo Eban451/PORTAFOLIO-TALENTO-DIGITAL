@@ -70,7 +70,7 @@ router.get("/admin/control", async (req, res) => {
 //   res.render("admin")
 // })
 
-router.get("/mapa", checkAuthenticated, (req, res) => {
+router.get("/mapa", checkNotAuthenticated, (req, res) => {
   res.render("mapa")
 })
 
@@ -112,13 +112,13 @@ router.post("/registro", async (req, res) => {
   }
 
   if (password.length < 6) {
-    errors.push("Password must be at least 6 characters long");
+    errors.push("La contraseña debe tener al menos de 6 caracteres");
   }
 
   // Validate email format using regular expression
   const emailRegex = /\S+@\S+\.\S+/;
   if (!emailRegex.test(email)) {
-    errors.push("Please enter a valid email address");
+    errors.push("Por favor ingrese un email válido");
   }
 
   try {
@@ -127,7 +127,7 @@ router.post("/registro", async (req, res) => {
     const data = await datos.json();
     const userExists = data.some((user) => user.email === email);
     if (userExists) {
-      errors.push("This email is already registered");
+      errors.push("El email ingresado ya existe en nuestros registros");
     }
 
     if (errors.length > 0) {
@@ -165,7 +165,7 @@ router.post("/users/login",
     } else if (req.user.categoria === 2) {
       return res.redirect("/admin/colab");
     }
-    return res.redirect("/users/carto");
+    return res.redirect("/mapa");
   }
 );
 
@@ -176,7 +176,7 @@ function checkAuthenticated(req, res, next) {
     } else if (req.user.categoria === 2) {
       return res.redirect("/admin/colab");
     } else {
-      return res.redirect("/users/carto");
+      return res.redirect("/mapa");
     }
   }
   next();
