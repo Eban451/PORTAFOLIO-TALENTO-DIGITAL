@@ -81,7 +81,7 @@ router.get("/users/carto", checkNotAuthenticated, (req, res) => {
 })
 
 router.get("/admin/landing", checkNotAuthenticated, checkCategoria1, (req, res) => {
-  res.render("landingadmin")
+  res.render("landingadmin", { user: req.user.name })
 })
 
 router.get("/admin/colab", checkNotAuthenticated, checkCategoria2, (req, res) => {
@@ -152,7 +152,7 @@ router.post("/registro", async (req, res) => {
 
 
 
-// LOGIN
+// LOGIN Y AUTENTIFICACIÓN !
 
 router.post(
   "/users/login",
@@ -233,9 +233,10 @@ function checkCategoria2(req, res, next) {
 //   console.log("SI?")
 // });
 
+
 // Mantenedor Página
 
-router.get("/mantenedor", async (req, res) => {
+router.get("/mantenedor", checkNotAuthenticated, checkCategoria1, async (req, res) => {
   //const resultado = await pool.query("select  * from personas");
   //console.log(resultado.rows);
   const resultado = await fetch("http://localhost:4000/api/v1/users");
