@@ -49,7 +49,7 @@ router.get("/", (req, res) => {
   res.render("index", { "titulo": "Página Personal" })
 })
 
-router.get("/users/login", async (req, res) => {
+router.get("/users/login", checkAuthenticated, async (req, res) => {
   const resultado = await fetch("http://localhost:4000/api/v1/users");
   const data = await resultado.json();
   res.render("login", { "users": data });
@@ -76,8 +76,16 @@ router.get("/mapa", checkAuthenticated, (req, res) => {
 
 
 router.get("/users/carto", checkNotAuthenticated, (req, res) => {
-  console.log(req.isAuthenticated());
+  // console.log(req.isAuthenticated());
   res.render("carto", { user: req.user.name })
+})
+
+router.get("/admin/landing", checkNotAuthenticated, checkCategoria1, (req, res) => {
+  res.render("landingadmin")
+})
+
+router.get("/admin/colab", checkNotAuthenticated, checkCategoria2, (req, res) => {
+  res.render("landingcolab")
 })
 
 router.get("/users/logout", (req, res) => {
@@ -149,15 +157,28 @@ router.post("/registro", async (req, res) => {
 router.post(
   "/users/login",
   passport.authenticate("local", {
-    successRedirect: "/users/carto",
     failureRedirect: "/users/login",
     failureFlash: true
-  })
+  }),
+  function(req, res) {
+    if (req.user.categoria === 1) {
+      return res.redirect("/admin/landing");
+    } else if (req.user.categoria === 2) {
+      return res.redirect("/admin/colab");
+    }
+    return res.redirect("/users/carto");
+  }
 );
 
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
-    return res.redirect("/users/carto");
+    if (req.user.categoria === 1) {
+      return res.redirect("/admin/landing");
+    } else if (req.user.categoria === 2) {
+      return res.redirect("/admin/colab");
+    } else {
+      return res.redirect("/users/carto");
+    }
   }
   next();
 }
@@ -167,6 +188,22 @@ function checkNotAuthenticated(req, res, next) {
     return next();
   }
   res.redirect("/users/login");
+}
+
+function checkCategoria1(req, res, next) {
+  if (req.isAuthenticated() && req.user.categoria === 1) {
+    return next();
+  } else if (req.isAuthenticated() && req.user.categoria === 2) {
+    return res.redirect("/admin/colab");
+  }
+  res.redirect("/users/carto");
+}
+
+function checkCategoria2(req, res, next) {
+  if (req.isAuthenticated() && (req.user.categoria === 1 || req.user.categoria === 2)) {
+    return next();
+  }
+  res.redirect("/users/carto");
 }
 
 //// ADMIN
