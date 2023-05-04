@@ -75,9 +75,9 @@ router.get("/mapa", checkNotAuthenticated, (req, res) => {
 })
 
 
-router.get("/users/carto", checkNotAuthenticated, (req, res) => {
+router.get("/users/carto", (req, res) => {
   // console.log(req.isAuthenticated());
-  res.render("carto", { user: req.user.name })
+  res.render("carto")
 })
 
 router.get("/admin/landing", checkNotAuthenticated, checkCategoria1, (req, res) => {
