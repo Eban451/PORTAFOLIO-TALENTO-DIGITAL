@@ -30,15 +30,19 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    margin-top: 20px; /* add this line to create a 20px margin between the navbar and cards */
+    margin-top: 100px; /* add this line to create a 20px margin between the navbar and cards */
   }
 
 .card--1 .card__img, .card--1 .card__img--hover {
-    background-image: url('https://images.pexels.com/photos/45202/brownie-dessert-cake-sweet-45202.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260');
+    background-image: url('https://cdn-icons-png.flaticon.com/512/33/33887.png');
 }
 
 .card--2 .card__img, .card--2 .card__img--hover {
-    background-image: url('https://images.pexels.com/photos/307008/pexels-photo-307008.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260');
+    background-image: url('https://us.123rf.com/450wm/siamimages/siamimages1711/siamimages171100107/90441435-icono-de-ubicaci%C3%B3n-de-pin.jpg');
+}
+
+.card--3 .card__img, .card--3 .card__img--hover {
+  background-image: url('https://png.pngtree.com/png-vector/20220527/ourmid/pngtree-map-pin-icon-point-marker-png-image_4748925.png');
 }
 
 .card__like {
