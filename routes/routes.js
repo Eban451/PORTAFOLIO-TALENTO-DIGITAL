@@ -94,14 +94,6 @@ router.get("/users/registro", checkAuthenticated, (req, res) => {
   res.render("registro")
 })
 
-router.get("/admin/control", async (req, res) => {
-  const resultado = await fetch("http://localhost:4000/api/v1/puntos2");
-  const data = await resultado.json();
-  console.log(data)
-  res.render("mantenedor2", { "museums": data });
-});
-
-
 router.get("/mapa", checkNotAuthenticated, (req, res) => {
   res.render("mapa")
 })
@@ -313,6 +305,38 @@ router.put("/mantenedor/:id", async (req, res) => {
 
 
 });
+
+// MANTENEDOR PUNTOS PÁGINA
+
+router.get("/admin/control", async (req, res) => {
+  const resultado = await fetch("http://localhost:4000/api/v1/puntos2");
+  const data = await resultado.json();
+  console.log(data)
+  res.render("mantenedor2", { "museums": data });
+});
+
+// Ingresar datos Mantenedor 2
+
+router.post("/mantenedor2", async (req, res) => {
+  try {
+      const { nombre, img, direccion, horario, geom, categoria, creador } = req.body;
+      console.log(nombre, img, direccion, horario, geom, categoria, creador)
+      const resultado = await fetch("http://localhost:4000/api/v1/puntos", {
+          method: "POST",
+          body: JSON.stringify({ nombre, img, direccion, horario, geom, categoria, creador }),
+          headers: {
+              "Content-Type": "application/json"
+          }
+      })
+      const datos = await fetch("http://localhost:4000/api/v1/puntos2");
+      const data = await datos.json();
+      res.render("mantenedor2", { "museums": data });
+  } catch (e) {
+      res.render("error", { "error": "Problemas al Insertar registro" });
+  }
+});
+
+// LOGOUT
 
 router.get("*", (req, res) => {
   res.render("error")

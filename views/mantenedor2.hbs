@@ -21,7 +21,7 @@
         <div class="control-panel">
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-warning" onclick="" data-bs-toggle="modal" data-bs-target="#ex">
-                Crear Nuevo Producto
+                Crear Nueva Ubicación
             </button>
         </div>
 
@@ -96,43 +96,51 @@
                     </div>
                     <div class="cont-edicion-productos">
                         <div class="form-editar-prod">
-                            <form action="" class="needs-validation
-                                        form-editar-prod">
-                                <div class="input-group has-validation">
-                                    <span class="input-group-text">ID</span>
-                                    <input type="text" class="form-control form-edit" id="newprod-id" placeholder="#"
-                                        value="" disabled>
+                            <form id="formulario" action="/mantenedor2" method="POST" class="needs-validation form-editar-prod">
+                                <div id="formulario">
+                                    <div class="form-group">
+                                        <label for="in_nombre">Name:</label>
+                                        <input type="text" id="in_nombre" name="nombre" class="form-control"
+                                            placeholder="Name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="in_img">Imagen:</label>
+                                        <input type="text" id="in_img" name="img" class="form-control"
+                                            placeholder="Imagen" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="in_direccion">Dirección:</label>
+                                        <input type="text" id="in_direccion" name="direccion" class="form-control"
+                                            placeholder="Dirección" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="in_horario">Horario:</label>
+                                        <input type="text" id="in_horario" name="horario" class="form-control"
+                                            placeholder="Horario" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="in_coordenadas">Coordenadas:</label>
+                                        <input type="text" id="in_coordenadas" name="geom" class="form-control"
+                                            placeholder="Coordenadas" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="in_categoria">Categoria:</label>
+                                        <input type="text" id="in_categoria" name="categoria" class="form-control"
+                                            placeholder="Categoria " required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="in_creador">Creador:</label>
+                                        <input type="text" id="in_creador" name="creador" class="form-control"
+                                            placeholder="Creador"required>
+                                    </div>
+                                    <button id="btn_add" class="btn btn-primary">
+                                        <span class="material-symbols-outlined">add</span>
+                                    </button>
+                                    <button id="btn_edit" class="btn btn-secondary" hidden>
+                                        <span class="material-symbols-outlined">edit</span>
+                                    </button>
                                 </div>
-                                <label for="in_nombre">Nombre:</label>
-                                <input id="in_nombre" name="nombre" type="text" class="form-control form-edit"
-                                    placeholder="Nombre" required value="{{newprodNom}}">
 
-                                <label for="in_img">Imagen:</label>
-                                <input id="in_img" name="img" type="text" class="form-control form-edit"
-                                    placeholder="Link de Imagen (300 x 300)" required value="{{newprodImg}}">
-
-                                <label for="in_direccion">Dirección:</label>
-                                <input id="in_direccion" name="direccion" type="text" class="form-control form-edit"
-                                    placeholder="Dirección" required value="{{newprodDir}}">
-
-                                <label for="in_horario">Horario:</label>
-                                <input id="in_horario" name="horario" type="text" class="form-control form-edit"
-                                    placeholder="Horario" required value="{{newprodHor}}">
-                                <input type="text" class="form-control
-                                            form-edit" id="in_coordenadas" name="geom" placeholder="Coordenados"
-                                    required>
-
-                                <select class="form-select form-edit" id="in_categoria" placeholder="Categoria"
-                                    required>
-                                    <option value="">Seleccione un
-                                        categoría</option>
-                                    <option value="1">Museos</option>
-                                    <option value="2">Parques y Plazas</option>
-                                    <option value="3">Servicios</option>
-                                    <input type="text" class="form-control form-edit" id="in_creador" name="categoria"
-                                        name="creador" placeholder="ID Creador" required>
-                                    <p id="requerido" class="d-none">Debe
-                                        completar los campos requeridos</p>
                             </form>
                             <div class="btn-crear-modal">
                                 <button class="btn
@@ -175,15 +183,13 @@
                     <div class="modal-footer">
                         <button type="button" class="btn
                                         btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn
-                                        btn-warning" onclick="almacenarProductoNuevo()">Añadir
-                            Producto</button>
+                        <button id="add-location-button" type="button" class="btn
+                                        btn-warning">Añadir
+                            Ubicación</button>
                     </div>
                 </div>
             </div>
         </div>
-
-
 
         <section class="py-5 seccion-tienda-admin">
             <div class="container px-4 px-lg-5 mt-5">
@@ -233,6 +239,7 @@
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
     <script src="/js/cards.js"></script>
+    <script></script>
 </body>
 
 </html>

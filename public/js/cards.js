@@ -35,3 +35,4 @@ function renderNuevoEjemplo() {
         document.querySelector('#stock-ejemplo').innerText = horario;
     }
 }
+
