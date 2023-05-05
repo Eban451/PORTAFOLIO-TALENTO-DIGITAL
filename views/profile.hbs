@@ -1,0 +1,10 @@
+<h1>Profile</h1>
+<p>Name: {{ user.name }}</p>
+<p>Email: {{ user.email }}</p>
+<img src="/img/{{ user.id }}.jpg" alt="Avatar">
+<form action="/users/{{ user.id }}/avatar" method="POST" enctype="multipart/form-data">
+  <input type="file" name="avatar">
+  <button type="submit">Change Avatar</button>
+</form>
+
+{{!-- <img src="/img/1.jpg" alt="Avatar"> --}}

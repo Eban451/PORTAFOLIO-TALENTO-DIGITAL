@@ -9,9 +9,8 @@ import flash from "express-flash";
 import bcrypt from 'bcrypt';
 import hbs from 'hbs';
 import methodOverride from 'method-override'
-
-
-
+import multer from 'multer';
+import fs from 'fs';
 
 const router = Router()
 
@@ -45,6 +44,42 @@ router.use(passport.session())
 
 router.use(methodOverride("_method", { methods: ["GET", "POST"] }));
 
+// SUBIR AVATAR USERS
+
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/img/')
+  },
+  filename: function (req, file, cb) {
+    const userId = req.params.id;
+    const ext = file.originalname.split('.').pop();
+    const filename = userId + '.' + ext;
+    const filepath = 'public/img/' + filename;
+    if (fs.existsSync(filepath)) {
+      fs.unlinkSync(filepath);
+    }
+    cb(null, filename);
+  }
+});
+
+const upload = multer({ storage: storage })
+
+router.post('/users/:id/avatar', upload.single('avatar'), function (req, res, next) {
+  // req.file contains information about the uploaded file
+  if (!req.file) {
+    return res.status(400).json({ message: 'Please upload a file' });
+  }
+
+  const avatarFilename = req.file.filename;
+  const avatarUrl = '/img/' + avatarFilename;
+
+  return res.json({ message: 'File uploaded successfully', avatarUrl });
+})
+
+
+// RUTAS
+
 router.get("/", (req, res) => {
   res.render("index", { "titulo": "Página Personal" })
 })
@@ -63,12 +98,9 @@ router.get("/admin/control", async (req, res) => {
   const resultado = await fetch("http://localhost:4000/api/v1/puntos2");
   const data = await resultado.json();
   console.log(data)
-  res.render("admin", { "museums": data });
+  res.render("mantenedor2", { "museums": data });
 });
 
-// router.get("/admin/control", checkAuthenticated, (req, res) => {
-//   res.render("admin")
-// })
 
 router.get("/mapa", checkNotAuthenticated, (req, res) => {
   res.render("mapa")
@@ -77,7 +109,7 @@ router.get("/mapa", checkNotAuthenticated, (req, res) => {
 
 router.get("/users/carto",checkNotAuthenticated, (req, res) => {
   // console.log(req.isAuthenticated());
-  res.render("carto", { user: req.user.name })
+  res.render("carto", { user: req.user })
 })
 
 router.get("/admin/landing", checkNotAuthenticated, checkCategoria1, (req, res) => {
@@ -98,6 +130,11 @@ router.get("/users/logout", (req, res) => {
     res.redirect("/users/login");
   });
 });
+
+router.get("/profile",checkNotAuthenticated, (req, res) => {
+  // console.log(req.isAuthenticated());
+  res.render("profile", { user: req.user })
+})
 
 
 // Registro Usuarios
@@ -205,35 +242,7 @@ function checkCategoria2(req, res, next) {
   res.redirect("/users/carto");
 }
 
-//// ADMIN
-
-// router.get('/mapa', (req, res) => {
-//   const query = 'SELECT id, nombre, img, direccion, horario, ST_AsGeoJSON(geom) FROM museums';
-
-//   pool.query(query)
-//     .then((result) => {
-//       const rows = result.rows.map((row) => {
-//         const { coordinates } = JSON.parse(row.st_asgeojson);
-//         return {
-//           id: row.id,
-//           nombre: row.nombre,
-//           img: row.img,
-//           direccion: row.direccion,
-//           horario: row.horario,
-//           coordinates,
-//         };
-//       });
-//       res.render('mapa');
-//       console.log(rows.map((row) => row));
-//     })
-//     .catch((err) => {
-//       console.error('Error fetching data from PostgreSQL database', err);
-//     });
-//   console.log("SI?")
-// });
-
-
-// Mantenedor Página
+// Mantenedor Usuarios Página
 
 router.get("/mantenedor", checkNotAuthenticated, checkCategoria1, async (req, res) => {
   //const resultado = await pool.query("select  * from personas");
@@ -260,7 +269,7 @@ router.delete("/mantenedor/:id", async (req, res) => {
 
 });
 
-// Mantenedor PUT
+// Mantenedor POST
 
 router.post("/mantenedor", async (req, res) => {
   try {
