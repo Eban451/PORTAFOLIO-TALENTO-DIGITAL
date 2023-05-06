@@ -15,9 +15,10 @@
 
 <body>
 
-    <main>
-        <button type="button" class="btn btn-primary">¨Pruebas</button>
+    {{> navbar}}
 
+    <main>
+        
         <div class="control-panel">
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-warning" onclick="" data-bs-toggle="modal" data-bs-target="#ex">
@@ -221,7 +222,7 @@
                                         class="btn btn-warning mt-auto" data-bs-toggle="modal"
                                         data-bs-target="#exampleModal" href="#"
                                         onclick="editarProducto({{id}})">Editar</button><button type="button"
-                                        class="btn btn-danger" onclick="eliminarProductoDB(${index})"><i
+                                        class="btn btn-danger" onclick="location.href='/mantenedor2/{{id}}?_method=delete'"><i
                                             class="fa-solid fa-trash"></i></button></div>
                             </div>
                         </div>

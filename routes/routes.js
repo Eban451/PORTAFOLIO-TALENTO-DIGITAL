@@ -244,7 +244,7 @@ router.get("/mantenedor", checkNotAuthenticated, checkCategoria1, async (req, re
   res.render("mantenedor", { "users": data });
 });
 
-// Mantenedor DELETE
+// Mantenedor Usuarios DELETE
 
 router.delete("/mantenedor/:id", async (req, res) => {
   console.log("método eliminar")
@@ -334,6 +334,23 @@ router.post("/mantenedor2", async (req, res) => {
   } catch (e) {
       res.render("error", { "error": "Problemas al Insertar registro" });
   }
+});
+
+// Mantenedor Puntos DELETE
+
+router.delete("/mantenedor2/:id", async (req, res) => {
+  console.log("método eliminar")
+  const { id } = req.params
+  const resultado = await fetch("http://localhost:4000/api/v1/puntos/" + id,
+    { method: 'DELETE' });
+  if (resultado.status == 200) {
+    const datos = await fetch("http://localhost:4000/api/v1/puntos2");
+    const data = await datos.json();
+    res.render("mantenedor2", { "museums": data });
+  } else {
+    res.render("error", { "error": "Problemas al Eliminar registro" });
+  }
+
 });
 
 // LOGOUT
