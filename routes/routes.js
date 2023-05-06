@@ -353,6 +353,29 @@ router.delete("/mantenedor2/:id", async (req, res) => {
 
 });
 
+// EDITAR Mantenedor PUNTOS
+
+router.put("/mantenedor2/:id", async (req, res) => {
+  try {
+      const { id } = req.params;
+      const { nombre, img, direccion, horario, geom, categoria, creador } = req.body;
+      const resultado = await fetch(`http://localhost:4000/api/v1/puntos/${id}`, {
+          method: "PUT",
+          body: JSON.stringify({ nombre, img, direccion, horario, geom, categoria, creador }),
+          headers: {
+              "Content-Type": "application/json"
+          }
+      })
+      const datos = await fetch(`http://localhost:4000/api/v1/puntos2/`);
+      const data = await datos.json();
+      res.render("mantenedor2", { "museums": data });
+  } catch (e) {
+      res.render("error", { "error": "Problemas al Modificar registro" });
+  }
+
+
+});
+
 // LOGOUT
 
 router.get("*", (req, res) => {

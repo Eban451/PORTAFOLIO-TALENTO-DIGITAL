@@ -18,7 +18,7 @@
     {{> navbar}}
 
     <main>
-        
+
         <div class="control-panel">
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-warning" onclick="" data-bs-toggle="modal" data-bs-target="#ex">
@@ -37,67 +37,8 @@
                     </div>
                     <div class="cont-edicion-productos">
                         <div class="form-editar-prod">
-                            <form action="" class="needs-validation
-                                    form-editar-prod">
-                                <input type="text" class="form-control
-                                        form-edit" id="prod-id" placeholder="ID" value="ID 8" disabled>
-                                <input type="text" class="form-control
-                                        form-edit" id="prod-nombre" placeholder="Nombre" required>
-                                <input type="text" class="form-control
-                                        form-edit" id="prod-precio" placeholder="Precio" required>
-                                <input type="text" class="form-control
-                                        form-edit" id="prod-img" placeholder="Link de Imagen (300 x 300)" required>
-                                <select class="form-select form-edit" id="prod-categoria" placeholder="Categoria"
-                                    required>
-                                    <option value="">Seleccione un categoría</option>
-                                    <option value="clara">Clara</option>
-                                    <option value="oscura">Oscura</option>
-                                    <input type="text" class="form-control
-                                            form-edit" id="prod-stock" placeholder="Stock" required>
-                                    <p id="requerido" class="d-none">Debe
-                                        completar los campos requeridos</p>
-                            </form>
-                            <div class="btn-editar-modal">
-                                <!-- ESTE BOTON ES CREADO MEDIANTE SCRIPT (mainAdmin.js) -->
-                                <!-- <button class="btn btn-outline-warning" onclick="modificarProducto(id)">Modificar</button> -->
-                            </div>
-                        </div>
-                        <div class="cont-info-producto">
-                            <div class="info-producto">
-                                <h6>Información Actual</h6>
-                                <section class="seccion-info-producto">
-                                    <p><b>ID:</b> 8</p>
-                                    <p><b>Nombre:</b> "Hasta Pronto
-                                        Micro Dosis"</p>
-                                    <p><b>Precio:</b> $4.200</p>
-                                    <p><b>Link Imagen:</b>
-                                        "http://linkdelafoto.com/imagen.jpeg"</p>
-                                    <p><b>Categoria:</b> Clara</p>
-                                    <p><b>Cantidad en Stock:</b> 15</p>
-                                </section>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-warning" onclick="respaldoDB()">Guardar Cambios</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal Agregar Nuevo Producto -->
-        <div class="modal fade" id="ex" tabindex="-1" aria-labelledby="exLabel" aria-hidden="true">
-            <div class="modal-dialog modal-agregar">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exLabel">Crear
-                            Nueva Ubicación</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="cont-edicion-productos">
-                        <div class="form-editar-prod">
-                            <form id="formulario" action="/mantenedor2" method="POST" class="needs-validation form-editar-prod">
+                            <form id="formulario1" action="/mantenedor2" method="POST"
+                                class="needs-validation form-editar-prod">
                                 <div id="formulario">
                                     <div class="form-group">
                                         <label for="in_nombre">Name:</label>
@@ -132,7 +73,94 @@
                                     <div class="form-group">
                                         <label for="in_creador">Creador:</label>
                                         <input type="text" id="in_creador" name="creador" class="form-control"
-                                            placeholder="Creador"required>
+                                            placeholder="Creador" required>
+                                    </div>
+                                    {{!-- <button id="btn_add" class="btn btn-primary">
+                                        <span class="material-symbols-outlined">add</span>
+                                    </button> --}}
+                                    <button id="btn_edit" class="btn btn-secondary">
+                                        <span class="material-symbols-outlined">edit</span>
+                                    </button>
+                                </div>
+
+                            </form>
+                            <div class="btn-editar-modal">
+                                <!-- ESTE BOTON ES CREADO MEDIANTE SCRIPT (mainAdmin.js) -->
+                                <!-- <button class="btn btn-outline-warning" onclick="modificarProducto(id)">Modificar</button> -->
+                            </div>
+                        </div>
+                        {{!-- <div class="cont-info-producto">
+                            <div class="info-producto">
+                                <h6>Información Actual</h6>
+                                <section class="seccion-info-producto">
+                                    <p><b>ID:</b> 8</p>
+                                    <p><b>Nombre:</b> "Hasta Pronto
+                                        Micro Dosis"</p>
+                                    <p><b>Precio:</b> $4.200</p>
+                                    <p><b>Link Imagen:</b>
+                                        "http://linkdelafoto.com/imagen.jpeg"</p>
+                                    <p><b>Categoria:</b> Clara</p>
+                                    <p><b>Cantidad en Stock:</b> 15</p>
+                                </section>
+                            </div>
+                        </div> --}}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-warning" onclick="respaldoDB()">Guardar Cambios</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Agregar Nueva Ubicación -->
+        <div class="modal fade" id="ex" tabindex="-1" aria-labelledby="exLabel" aria-hidden="true">
+            <div class="modal-dialog modal-agregar">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exLabel">Crear
+                            Nueva Ubicación</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="cont-edicion-productos">
+                        <div class="form-editar-prod">
+                            <form id="formulario" action="/mantenedor2" method="POST"
+                                class="needs-validation form-editar-prod">
+                                <div id="formulario">
+                                    <div class="form-group">
+                                        <label for="in_nombre">Name:</label>
+                                        <input type="text" id="in_nombre" name="nombre" class="form-control"
+                                            placeholder="Name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="in_img">Imagen:</label>
+                                        <input type="text" id="in_img" name="img" class="form-control"
+                                            placeholder="Imagen" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="in_direccion">Dirección:</label>
+                                        <input type="text" id="in_direccion" name="direccion" class="form-control"
+                                            placeholder="Dirección" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="in_horario">Horario:</label>
+                                        <input type="text" id="in_horario" name="horario" class="form-control"
+                                            placeholder="Horario" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="in_coordenadas">Coordenadas:</label>
+                                        <input type="text" id="in_coordenadas" name="geom" class="form-control"
+                                            placeholder="Coordenadas" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="in_categoria">Categoria:</label>
+                                        <input type="text" id="in_categoria" name="categoria" class="form-control"
+                                            placeholder="Categoria " required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="in_creador">Creador:</label>
+                                        <input type="text" id="in_creador" name="creador" class="form-control"
+                                            placeholder="Creador" required>
                                     </div>
                                     <button id="btn_add" class="btn btn-primary">
                                         <span class="material-symbols-outlined">add</span>
@@ -200,29 +228,32 @@
                     {{#each museums}}
                     <div class="col mb-5 producto{{id}}">
                         <div class="card h-100">
-                            <img class="card-img-top img{{id}}" id="img" src="{{img}}" />
+                            <img class="card-img-top img{{id}}" id="in_img" src="{{img}}" />
                             <!-- Product details-->
                             <div class="card-body p-3">
                                 <div class="text-center">
                                     <!-- Product name-->
-                                    <h5 class="fw-bolder" id="titulo">{{nombre}}</h5>
+                                    <h5 class="fw-bolder" id="in_name">{{nombre}}</h5>
                                 </div>
                             </div>
                             <!-- Product actions-->
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                 <!-- Product price-->
-                                <p id="precio">Dirección: {{direccion}}</p>
-                                <p id="stock${el.id}" class="stock">Horario: {{horario}}</p>
-                                <p>Coordenadas: {{geometry}}</p>
+                                <p><b>Dirección:</b></p><p id="in_direccion">{{direccion}}</p>
+                                <p><b>Horario:</b></p><p id="in_horario" class="stock">{{horario}}</p>
+                                <p><b>Coordenadas:</b></p><p id="in_coordenadas">{{geometry}}</p>
                                 {{!-- <p>{{idcategoria}}</p> --}}
-                                <p>Tipo: {{tipo}}</p>
+                                <p><b>Tipo:</b></p><p>{{tipo}}</p>
+                                <p id="in_categoria" hidden>{{idcategoria}}</p>
                                 {{!-- <p>{{user_id}}</p> --}}
-                                <p>Creador: {{user_name}}</p>
+                                <p id="in_creador" hidden>{{idcreador}}</p>
+                                <p><b>Creador:</b></p><p>{{user_name}}</p>
                                 <div class="text-center botones-card"><button id="boton-ql{{id}}"
                                         class="btn btn-warning mt-auto" data-bs-toggle="modal"
                                         data-bs-target="#exampleModal" href="#"
-                                        onclick="editarProducto({{id}})">Editar</button><button type="button"
-                                        class="btn btn-danger" onclick="location.href='/mantenedor2/{{id}}?_method=delete'"><i
+                                        onclick="editar({{id}})">Editar</button><button type="button"
+                                        class="btn btn-danger"
+                                        onclick="location.href='/mantenedor2/{{id}}?_method=delete'"><i
                                             class="fa-solid fa-trash"></i></button></div>
                             </div>
                         </div>
@@ -240,7 +271,28 @@
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
     <script src="/js/cards.js"></script>
-    <script></script>
+    <script>
+        function editar(id) {
+            const card = document.querySelector(`.producto${id}`);
+            const name = card.querySelector("#in_name").textContent;
+            const img = card.querySelector("#in_img").src;
+            const direccion = card.querySelector("#in_direccion").textContent;
+            const horario = card.querySelector("#in_horario").textContent;
+            const coordenadas = card.querySelector("#in_coordenadas").textContent;
+            const categoria = card.querySelector("#in_categoria").textContent;
+            const creador = card.querySelector("#in_creador").textContent;
+            document.querySelector("#in_nombre").value = name;
+            document.querySelector("#in_img").value = img;
+            document.querySelector("#in_direccion").value = direccion
+            document.querySelector("#in_horario").value = horario;
+            document.querySelector("#in_coordenadas").value = coordenadas;
+            document.querySelector("#in_categoria").value = categoria;
+            document.querySelector("#in_creador").value = creador;
+            const form = document.getElementById("formulario1");
+            form.action = `/mantenedor2/${id}?_method=put`            
+        }
+           
+    </script>
 </body>
 
 </html>
