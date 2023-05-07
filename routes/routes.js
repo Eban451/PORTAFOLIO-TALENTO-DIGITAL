@@ -105,7 +105,7 @@ router.get("/users/carto",checkNotAuthenticated, (req, res) => {
 })
 
 router.get("/admin/landing", checkNotAuthenticated, checkCategoria1, (req, res) => {
-  res.render("landingadmin", { user: req.user.name })
+  res.render("landingadmin", { user: req.user })
 })
 
 router.get("/admin/colab", checkNotAuthenticated, checkCategoria2, (req, res) => {

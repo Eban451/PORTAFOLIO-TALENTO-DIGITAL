@@ -5,17 +5,51 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Colaborador</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/cards.css">
+    <title>Document</title>
 </head>
 
 <body>
-    <h1>Página Colaborador</h1>
+    {{> navbar}}
 
-    <nav> <a href="/mantenedor2">Mantenedor Puntos</a>
-        <a href="/mapa">Mapa</a>
-    </nav>
+    <div>
+        <section class="cards">
+            <article class="card card--2">
+                <div class="card__info-hover">
+                </div>
+                <div class="card__img"></div>
+                <a href="#" class="card_link">
+                    <div class="card__img--hover"></div>
+                </a>
+                <div class="card__info">
+                    <span class="card__category"></span>
+                    <h3 class="card__title">Mantenedor Puntos</h3>
+                    <span class="card__by"><a href="#" class="card__author" title="author"></a></span>
+                </div>
+            </article>
 
-    <a href="/users/logout">Logout</a>
+            <article class="card card--3">
+                <div class="card__info-hover">
+                </div>
+                <div class="card__img"></div>
+                <a href="/mapa" class="card_link">
+                    <div class="card__img--hover"></div>
+                </a>
+                <div class="card__info">
+                    <span class="card__category"></span>
+                    <h3 class="card__title">Ir al mapa</h3>
+                    <span class="card__by"> <a href="#" class="card__author" title="author"></a></span>
+                </div>
+            </article>
+
+
+
+        </section>
+
+    </div>
+    {{> scripts}}
 
 </body>
 
