@@ -51,6 +51,32 @@ const main = () => {
         })
         .catch((err) => console.error(err));
 
+    axios
+        .get("http://localhost:4000/api/v1/puntos5")
+        .then((result) => {
+            // Add the data to the map as a source with ID 'places'
+            map.addSource("places2", {
+                type: "geojson",
+                data: result.data,
+            });
+
+            // Add a layer to the map
+            map.addLayer({
+                id: "places2",
+                type: "circle",
+                source: "places",
+                paint: {
+                    "circle-color": "#4264fb",
+                    "circle-radius": 6,
+                    "circle-stroke-width": 2,
+                    "circle-stroke-color": "#ffffff",
+                },
+            });
+
+            console.log(result.data);
+        })
+        .catch((err) => console.error(err));
+
     // Create a popup, but don't add it to the map yet.
     const popup = new mapboxgl.Popup({
         closeButton: false,
@@ -88,11 +114,44 @@ const main = () => {
         });
     });
 
+    //MAP ONLOAD 
 
+    map.on('load', () => {
+        // Add event listeners for mouseenter and mouseleave on the 'places' layer
+        map.on('mouseenter', 'places2', (e) => {
+            // Change the cursor style as a UI indicator.
+            map.getCanvas().style.cursor = 'pointer';
 
+            // Copy coordinates array.
+            const coordinates = e.features[0].geometry.coordinates.slice();
+            const description = ` ${e.features[0].properties.nombre}
+     <img src="${e.features[0].properties.img}">
+      Dirección: ${e.features[0].properties.Direccion}
+      Horario: ${e.features[0].properties.Horario}      `;
+
+            // Ensure that if the map is zoomed out such that multiple
+            // copies of the feature are visible, the popup appears
+            // over the copy being pointed to.
+            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+            }
+
+            // Populate the popup and set its coordinates
+            // based on the feature found.
+            popup.setLngLat(coordinates).setHTML(description).addTo(map);
+        });
+
+        map.on('mouseleave', 'places2', () => {
+            map.getCanvas().style.cursor = '';
+            popup.remove();
+        });
+    });
+
+    // FUNCIONAMIENTO BOTONES
 
     // Get the button element by id
     const toggleMarkersButton = document.getElementById('toggleMarkers');
+    const toggleMarkersButton2 = document.getElementById('toggleMarkers2');
 
     // Add event listener to the button
     toggleMarkersButton.addEventListener('click', () => {
@@ -138,6 +197,49 @@ const main = () => {
         }
     });
 
+    // Add event listener to the button
+    toggleMarkersButton2.addEventListener('click', () => {
+        // Check if the 'places2' layer is currently visible
+        const placesLayer2 = map.getLayer('places2');
+        if (placesLayer2) {
+            // If the layer is visible, remove it from the map
+            map.removeLayer('places2');
+            map.removeSource('places2');
+
+            // Remove the "active" class from the button
+            toggleMarkersButton2.classList.remove('active');
+        } else {
+            // If the layer is not visible, fetch the GeoJSON data and add it to the map as a source and layer
+            axios
+                .get("http://localhost:4000/api/v1/puntos5")
+                .then((result) => {
+                    // Add the data to the map as a source with ID 'places2'
+                    map.addSource("places2", {
+                        type: "geojson",
+                        data: result.data,
+                    });
+
+                    // Add a layer to the map
+                    map.addLayer({
+                        id: "places2",
+                        type: "circle",
+                        source: "places2",
+                        paint: {
+                            "circle-color": "#4264fb",
+                            "circle-radius": 6,
+                            "circle-stroke-width": 2,
+                            "circle-stroke-color": "#ffffff",
+                        },
+                    });
+
+                    console.log(result.data);
+                })
+                .catch((err) => console.error(err));
+
+            // Add the "active" class to the button
+            toggleMarkersButton2.classList.add('active');
+        }
+    });
 
 
     // CAPTAR COORDENADAS
