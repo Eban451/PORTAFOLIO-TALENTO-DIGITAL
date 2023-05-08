@@ -66,9 +66,16 @@
                                             placeholder="Coordenadas" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="in_categoria">Categoria:</label>
+                                        {{!-- <label for="in_categoria">Categoria:</label>
                                         <input type="text" id="in_categoria" name="categoria" class="form-control"
-                                            placeholder="Categoria " required>
+                                            placeholder="Categoria " required> --}}
+
+                                        <select class="form-select form-edit" id="in_categoria" name="categoria"
+                                            placeholder="Categoria" required>
+                                            <option value="">Seleccione un categoría</option>
+                                            <option value="1">Museos</option>
+                                            <option value="2">Parques y Plazas</option>
+                                            <option value="3">Servicios</option>
                                     </div>
                                     <div class="form-group">
                                         <label for="in_creador">Creador:</label>
@@ -153,14 +160,21 @@
                                             placeholder="Coordenadas" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="in_categoria">Categoria:</label>
+                                        {{!-- <label for="in_categoria">Categoria:</label>
                                         <input type="text" id="in_categoria" name="categoria" class="form-control"
-                                            placeholder="Categoria " required>
+                                            placeholder="Categoria " required> --}}
+
+                                        <select class="form-select form-edit" id="in_categoria" name="categoria"
+                                            placeholder="Categoria" required>
+                                            <option value="">Seleccione un categoría</option>
+                                            <option value="1">Museos</option>
+                                            <option value="2">Parques y Plazas</option>
+                                            <option value="3">Servicios</option>
                                     </div>
                                     <div class="form-group">
                                         <label for="in_creador">Creador:</label>
                                         <input type="text" id="in_creador" name="creador" class="form-control"
-                                            placeholder="Creador" required>
+                                            placeholder="Creador" required value="{{ user.id }}">
                                     </div>
                                     <button id="btn_add" class="btn btn-primary">
                                         <span class="material-symbols-outlined">add</span>
@@ -222,7 +236,8 @@
 
         <section class="py-5 seccion-tienda-admin">
             <div class="container px-4 px-lg-5 mt-5">
-                <div id="contenedor-general" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <div id="contenedor-general"
+                    class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                     {{#each museums}}
                     <div class="col mb-5 producto{{id}}">
                         <div class="card h-100">
@@ -237,15 +252,20 @@
                             <!-- Product actions-->
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                 <!-- Product price-->
-                                <p><b>Dirección:</b></p><p id="in_direccion">{{direccion}}</p>
-                                <p><b>Horario:</b></p><p id="in_horario" class="stock">{{horario}}</p>
-                                <p><b>Coordenadas:</b></p><p id="in_coordenadas">{{geometry}}</p>
+                                <p><b>Dirección:</b></p>
+                                <p id="in_direccion">{{direccion}}</p>
+                                <p><b>Horario:</b></p>
+                                <p id="in_horario">{{horario}}</p>
+                                <p><b>Coordenadas:</b></p>
+                                <p id="in_coordenadas">{{geometry}}</p>
                                 {{!-- <p>{{idcategoria}}</p> --}}
-                                <p><b>Tipo:</b></p><p>{{tipo}}</p>
+                                <p><b>Tipo:</b></p>
+                                <p>{{tipo}}</p>
                                 <p id="in_categoria" hidden>{{idcategoria}}</p>
                                 {{!-- <p>{{user_id}}</p> --}}
                                 <p id="in_creador" hidden>{{idcreador}}</p>
-                                <p><b>Creador:</b></p><p>{{user_name}}</p>
+                                <p><b>Creador:</b></p>
+                                <p>{{user_name}}</p>
                                 <div class="text-center botones-card"><button id="boton-ql{{id}}"
                                         class="btn btn-warning mt-auto" data-bs-toggle="modal"
                                         data-bs-target="#exampleModal" href="#"
@@ -287,9 +307,9 @@
             document.querySelector("#in_categoria").value = categoria;
             document.querySelector("#in_creador").value = creador;
             const form = document.getElementById("formulario1");
-            form.action = `/mantenedor2/${id}?_method=put`            
+            form.action = `/mantenedor2/${id}?_method=put`
         }
-           
+
     </script>
 </body>
 

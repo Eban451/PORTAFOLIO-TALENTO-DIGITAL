@@ -1,7 +1,7 @@
 <nav class="navbar navbar-dark bg-primary navbar-expand-lg">
-  <div class="container-fluid">
-    <a href="/mapa">
-      <img src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/40/null/external-map-winter-travel-flaticons-lineal-color-flat-icons-2.png"/>
+  <div class="container-fluid flex-grow-1">
+    <a href="/admin/landing">
+      <img src="https://img.icons8.com/external-flaticons-lineal-color-flat-icons/30/null/external-map-winter-travel-flaticons-lineal-color-flat-icons-2.png"/>
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
       data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
@@ -16,10 +16,10 @@
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button"
             data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="/img/{{ user.id }}.jpg" alt="Avatar" style="width: 30px; height: 30px; border-radius: 50%;"/>
+             <img src="/img/{{ user.id }}.jpg" alt="Avatar" onerror="this.onerror=null;this.src='/img/usuario.png';" style="width: 30px; height: 30px; border-radius: 50%;" />
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="#">Editar perfil</a></li>
+            <li><a class="dropdown-item" href="/profile">Editar perfil</a></li>
             <li><a class="dropdown-item" href="/users/logout">Logout</a></li>
           </ul>
         </li>

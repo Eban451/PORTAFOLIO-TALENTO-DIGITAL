@@ -109,7 +109,7 @@ router.get("/admin/landing", checkNotAuthenticated, checkCategoria1, (req, res) 
 })
 
 router.get("/admin/colab", checkNotAuthenticated, checkCategoria2, (req, res) => {
-  res.render("landingcolab")
+  res.render("landingcolab", { user: req.user })
 })
 
 router.get("/users/logout", (req, res) => {
@@ -237,11 +237,9 @@ function checkCategoria2(req, res, next) {
 // Mantenedor Usuarios Página
 
 router.get("/mantenedor", checkNotAuthenticated, checkCategoria1, async (req, res) => {
-  //const resultado = await pool.query("select  * from personas");
-  //console.log(resultado.rows);
   const resultado = await fetch("http://localhost:4000/api/v1/users");
   const data = await resultado.json();
-  res.render("mantenedor", { "users": data });
+  res.render("mantenedor", { "users": data, user: req.user });
 });
 
 // Mantenedor Usuarios DELETE
@@ -254,7 +252,7 @@ router.delete("/mantenedor/:id", async (req, res) => {
   if (resultado.status == 200) {
     const datos = await fetch("http://localhost:4000/api/v1/users");
     const data = await datos.json();
-    res.render("mantenedor", { "users": data });
+    res.render("mantenedor", { "users": data, user: req.user });
   } else {
     res.render("error", { "error": "Problemas al Eliminar registro" });
   }
@@ -277,7 +275,7 @@ router.post("/mantenedor", async (req, res) => {
       })
       const datos = await fetch("http://localhost:4000/api/v1/users");
       const data = await datos.json();
-      res.render("mantenedor", { "users": data });
+      res.render("mantenedor", { "users": data, user: req.user });
   } catch (e) {
       res.render("error", { "error": "Problemas al Insertar registro" });
   }
@@ -298,21 +296,20 @@ router.put("/mantenedor/:id", async (req, res) => {
       })
       const datos = await fetch(`http://localhost:4000/api/v1/users/`);
       const data = await datos.json();
-      res.render("mantenedor", { "users": data });
+      res.render("mantenedor", { "users": data, user: req.user });
   } catch (e) {
       res.render("error", { "error": "Problemas al Modificar registro" });
   }
-
 
 });
 
 // MANTENEDOR PUNTOS PÁGINA
 
-router.get("/admin/control", async (req, res) => {
+router.get("/admin/control", checkNotAuthenticated, checkCategoria2, async (req, res) => {
   const resultado = await fetch("http://localhost:4000/api/v1/puntos2");
   const data = await resultado.json();
   console.log(data)
-  res.render("mantenedor2", { "museums": data });
+  res.render("mantenedor2", { "museums": data, user: req.user });
 });
 
 // Ingresar datos Mantenedor 2
@@ -330,7 +327,7 @@ router.post("/mantenedor2", async (req, res) => {
       })
       const datos = await fetch("http://localhost:4000/api/v1/puntos2");
       const data = await datos.json();
-      res.render("mantenedor2", { "museums": data });
+      res.render("mantenedor2", { "museums": data, user: req.user });
   } catch (e) {
       res.render("error", { "error": "Problemas al Insertar registro" });
   }
@@ -346,7 +343,7 @@ router.delete("/mantenedor2/:id", async (req, res) => {
   if (resultado.status == 200) {
     const datos = await fetch("http://localhost:4000/api/v1/puntos2");
     const data = await datos.json();
-    res.render("mantenedor2", { "museums": data });
+    res.render("mantenedor2", { "museums": data, user: req.user });
   } else {
     res.render("error", { "error": "Problemas al Eliminar registro" });
   }
@@ -368,7 +365,7 @@ router.put("/mantenedor2/:id", async (req, res) => {
       })
       const datos = await fetch(`http://localhost:4000/api/v1/puntos2/`);
       const data = await datos.json();
-      res.render("mantenedor2", { "museums": data });
+      res.render("mantenedor2", { "museums": data, user: req.user });
   } catch (e) {
       res.render("error", { "error": "Problemas al Modificar registro" });
   }
