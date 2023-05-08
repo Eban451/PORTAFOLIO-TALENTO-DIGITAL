@@ -74,9 +74,9 @@ router.post('/users/:id/avatar', upload.single('avatar'), function (req, res, ne
   const avatarFilename = req.file.filename;
   const avatarUrl = '/img/' + avatarFilename;
 
-  return res.json({ message: 'File uploaded successfully', avatarUrl });
-})
-
+  // Redirect to the profile page
+  return res.redirect('/profile');
+});
 
 // RUTAS
 
@@ -305,7 +305,7 @@ router.put("/mantenedor/:id", async (req, res) => {
 
 // MANTENEDOR PUNTOS PÁGINA
 
-router.get("/admin/control", checkNotAuthenticated, checkCategoria2, async (req, res) => {
+router.get("/mantenedor2", checkNotAuthenticated, checkCategoria2, async (req, res) => {
   const resultado = await fetch("http://localhost:4000/api/v1/puntos2");
   const data = await resultado.json();
   console.log(data)
