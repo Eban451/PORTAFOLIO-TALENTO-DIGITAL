@@ -54,6 +54,7 @@ img {
   transition: 0s
 }
 
+/* Instructions */
 #instructions {
   position: absolute;
   margin: 20px;
@@ -67,15 +68,29 @@ img {
   overflow-y: scroll;
   font-family: sans-serif;
   transition: min-height 0.5s;
+  position: relative;
 }
 
-#instructions:empty {
-  height: 5%;
+/* Media query for small screens */
+@media (max-width: 767px) {
+  #instructions {
+    position: fixed;
+    width: 80%;
+    max-height: 20%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    transform: none;
+    text-align: center;
+    top: auto;
+  }
 }
+
 
 .container {
   position: absolute;
-  top: -3%;
+  top: -2%;
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;

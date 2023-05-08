@@ -99,17 +99,27 @@ router.get("/mapa", checkNotAuthenticated, (req, res) => {
 })
 
 
-router.get("/users/carto",checkNotAuthenticated, (req, res) => {
+router.get("/users/carto", checkNotAuthenticated, (req, res) => {
   // console.log(req.isAuthenticated());
   res.render("carto", { user: req.user })
 })
 
-router.get("/admin/landing", checkNotAuthenticated, checkCategoria1, (req, res) => {
-  res.render("landingadmin", { user: req.user })
+router.get("/admin/landing", checkNotAuthenticated, checkCategoria1, async (req, res) => {
+  const resultadoTipo = await fetch("http://localhost:4000/api/v1/estats1");
+  const countsByTipo = await resultadoTipo.json();
+
+  const resultadoCreador = await fetch("http://localhost:4000/api/v1/estats2");
+  const countsByCreador = await resultadoCreador.json();
+  res.render("landingadmin", { user: req.user, countsByTipo, countsByCreador })
 })
 
-router.get("/admin/colab", checkNotAuthenticated, checkCategoria2, (req, res) => {
-  res.render("landingcolab", { user: req.user })
+router.get("/admin/colab", checkNotAuthenticated, checkCategoria2, async (req, res) => {
+  const resultadoTipo = await fetch("http://localhost:4000/api/v1/estats1");
+  const countsByTipo = await resultadoTipo.json();
+
+  const resultadoCreador = await fetch("http://localhost:4000/api/v1/estats2");
+  const countsByCreador = await resultadoCreador.json();
+  res.render("landingcolab", { user: req.user, countsByTipo, countsByCreador })
 })
 
 router.get("/users/logout", (req, res) => {
@@ -123,7 +133,7 @@ router.get("/users/logout", (req, res) => {
   });
 });
 
-router.get("/profile",checkNotAuthenticated, (req, res) => {
+router.get("/profile", checkNotAuthenticated, (req, res) => {
   // console.log(req.isAuthenticated());
   res.render("profile", { user: req.user })
 })
@@ -188,7 +198,7 @@ router.post("/users/login",
     failureRedirect: "/users/login",
     failureFlash: true
   }),
-  function(req, res) {
+  function (req, res) {
     if (req.user.categoria === 1) {
       return res.redirect("/admin/landing");
     } else if (req.user.categoria === 2) {
@@ -263,21 +273,21 @@ router.delete("/mantenedor/:id", async (req, res) => {
 
 router.post("/mantenedor", async (req, res) => {
   try {
-      const { name, email, password, categoria } = req.body;
-      const hashedPassword = await bcrypt.hash(password, 10);
-      // console.log(hashedPassword)
-      const resultado = await fetch("http://localhost:4000/api/v1/users", {
-          method: "POST",
-          body: JSON.stringify({ name, email, password: hashedPassword, categoria }),
-          headers: {
-              "Content-Type": "application/json"
-          }
-      })
-      const datos = await fetch("http://localhost:4000/api/v1/users");
-      const data = await datos.json();
-      res.render("mantenedor", { "users": data, user: req.user });
+    const { name, email, password, categoria } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    // console.log(hashedPassword)
+    const resultado = await fetch("http://localhost:4000/api/v1/users", {
+      method: "POST",
+      body: JSON.stringify({ name, email, password: hashedPassword, categoria }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    const datos = await fetch("http://localhost:4000/api/v1/users");
+    const data = await datos.json();
+    res.render("mantenedor", { "users": data, user: req.user });
   } catch (e) {
-      res.render("error", { "error": "Problemas al Insertar registro" });
+    res.render("error", { "error": "Problemas al Insertar registro" });
   }
 });
 
@@ -285,20 +295,20 @@ router.post("/mantenedor", async (req, res) => {
 
 router.put("/mantenedor/:id", async (req, res) => {
   try {
-      const { id } = req.params;
-      const { name, email, password, categoria } = req.body;
-      const resultado = await fetch(`http://localhost:4000/api/v1/users/${id}`, {
-          method: "PUT",
-          body: JSON.stringify({ id, name, email, password, categoria }),
-          headers: {
-              "Content-Type": "application/json"
-          }
-      })
-      const datos = await fetch(`http://localhost:4000/api/v1/users/`);
-      const data = await datos.json();
-      res.render("mantenedor", { "users": data, user: req.user });
+    const { id } = req.params;
+    const { name, email, password, categoria } = req.body;
+    const resultado = await fetch(`http://localhost:4000/api/v1/users/${id}`, {
+      method: "PUT",
+      body: JSON.stringify({ id, name, email, password, categoria }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    const datos = await fetch(`http://localhost:4000/api/v1/users/`);
+    const data = await datos.json();
+    res.render("mantenedor", { "users": data, user: req.user });
   } catch (e) {
-      res.render("error", { "error": "Problemas al Modificar registro" });
+    res.render("error", { "error": "Problemas al Modificar registro" });
   }
 
 });
@@ -316,20 +326,20 @@ router.get("/mantenedor2", checkNotAuthenticated, checkCategoria2, async (req, r
 
 router.post("/mantenedor2", async (req, res) => {
   try {
-      const { nombre, img, direccion, horario, geom, categoria, creador } = req.body;
-      console.log(nombre, img, direccion, horario, geom, categoria, creador)
-      const resultado = await fetch("http://localhost:4000/api/v1/puntos", {
-          method: "POST",
-          body: JSON.stringify({ nombre, img, direccion, horario, geom, categoria, creador }),
-          headers: {
-              "Content-Type": "application/json"
-          }
-      })
-      const datos = await fetch("http://localhost:4000/api/v1/puntos2");
-      const data = await datos.json();
-      res.render("mantenedor2", { "museums": data, user: req.user });
+    const { nombre, img, direccion, horario, geom, categoria, creador } = req.body;
+    console.log(nombre, img, direccion, horario, geom, categoria, creador)
+    const resultado = await fetch("http://localhost:4000/api/v1/puntos", {
+      method: "POST",
+      body: JSON.stringify({ nombre, img, direccion, horario, geom, categoria, creador }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    const datos = await fetch("http://localhost:4000/api/v1/puntos2");
+    const data = await datos.json();
+    res.render("mantenedor2", { "museums": data, user: req.user });
   } catch (e) {
-      res.render("error", { "error": "Problemas al Insertar registro" });
+    res.render("error", { "error": "Problemas al Insertar registro" });
   }
 });
 
@@ -354,20 +364,20 @@ router.delete("/mantenedor2/:id", async (req, res) => {
 
 router.put("/mantenedor2/:id", async (req, res) => {
   try {
-      const { id } = req.params;
-      const { nombre, img, direccion, horario, geom, categoria, creador } = req.body;
-      const resultado = await fetch(`http://localhost:4000/api/v1/puntos/${id}`, {
-          method: "PUT",
-          body: JSON.stringify({ nombre, img, direccion, horario, geom, categoria, creador }),
-          headers: {
-              "Content-Type": "application/json"
-          }
-      })
-      const datos = await fetch(`http://localhost:4000/api/v1/puntos2/`);
-      const data = await datos.json();
-      res.render("mantenedor2", { "museums": data, user: req.user });
+    const { id } = req.params;
+    const { nombre, img, direccion, horario, geom, categoria, creador } = req.body;
+    const resultado = await fetch(`http://localhost:4000/api/v1/puntos/${id}`, {
+      method: "PUT",
+      body: JSON.stringify({ nombre, img, direccion, horario, geom, categoria, creador }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    const datos = await fetch(`http://localhost:4000/api/v1/puntos2/`);
+    const data = await datos.json();
+    res.render("mantenedor2", { "museums": data, user: req.user });
   } catch (e) {
-      res.render("error", { "error": "Problemas al Modificar registro" });
+    res.render("error", { "error": "Problemas al Modificar registro" });
   }
 
 

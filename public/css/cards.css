@@ -31,7 +31,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 100px;
+  margin-top: 50px;
   /* add this line to create a 20px margin between the navbar and cards */
 }
 
@@ -172,4 +172,19 @@ body {
 
 .card:hover .card__info-hover {
   opacity: 1;
+}
+
+/* TABLAS */
+
+.table-container {
+  display: flex;
+  padding: 20px;
+}
+
+.table-container div {
+  margin-left: 20px;
+}
+
+.table-container div:first-child {
+  margin-left: 0;
 }

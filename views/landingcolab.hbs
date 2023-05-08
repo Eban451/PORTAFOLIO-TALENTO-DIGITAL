@@ -49,6 +49,50 @@
         </section>
 
     </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <h1>Puntos por tipo</h1>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Tipo</th>
+                            <th>Total Museos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each countsByTipo}}
+                        <tr>
+                            <td>{{this.tipo}}</td>
+                            <td>{{this.total_museums}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-sm-6">
+                <h1>Puntos por creador</h1>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Creador</th>
+                            <th>Total Museos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each countsByCreador}}
+                        <tr>
+                            <td>{{creator_name}}</td>
+                            <td>{{total_museums}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
     {{> scripts}}
 
 </body>
