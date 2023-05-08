@@ -18,29 +18,21 @@ img {
 }
 
 
-
 #location-btn {
   position: absolute;
   top: 1%;
   right: 10px;
-  z-index: 0;
-
+  z-index: 2;
 }
 
-.button {
-  position: relative;
-  background-color: #4CAF50;
-  border: none;
-  font-size: 28px;
-  color: #FFFFFF;
-  padding: 20px;
-  width: 200px;
-  text-align: center;
-  transition-duration: 0.4s;
-  text-decoration: none;
-  overflow: hidden;
-  cursor: pointer;
+@media (max-width: 576px) {
+  #location-btn {
+    min-width: 100px;
+    font-size: 0.8rem;
+  }
 }
+
+
 
 .button:after {
   content: "";
@@ -83,9 +75,12 @@ img {
 
 .container {
   position: absolute;
-  top: 2%;
-  left: 45%;
+  top: -3%;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
 }
+
 
 .mapboxgl-popup {
   max-width: 400px;
@@ -93,7 +88,7 @@ img {
 }
 
 
-/* PRUEBAS */
+/* NAV */
 
 
 nav {

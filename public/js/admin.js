@@ -541,3 +541,21 @@ const main = () => {
 };
 
 window.addEventListener("load", main);
+
+// Get the button element
+var locationBtn = document.getElementById("location-btn");
+
+// Listen for window resize events
+window.addEventListener("resize", function () {
+    // Get the current screen width
+    var screenWidth = window.innerWidth;
+
+    // If the screen width is less than or equal to 576 pixels
+    if (screenWidth <= 576) {
+        // Change the button text
+        locationBtn.textContent = "Ubicación";
+    } else {
+        // Reset the button text
+        locationBtn.textContent = "Usar mi localización";
+    }
+});
