@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/loginregistro.css">
+    <title>Entrar o Registrarse</title>
+</head>
+
+<body>
+    <div class="main">
+
+        <input type="checkbox" id="chk" aria-hidden="true">
+
+        <div class="signup">
+            <form action="/registro" method="POST">
+                <label for="chk" aria-hidden="true">Registrarse</label>
+                <ul>
+                    {{#if errors}}
+                    {{#each errors}}
+                    <li>
+                        {{this.message}}
+                    </li>
+                    {{/each}}
+                    {{/if}}
+                </ul>
+
+                <ul>
+                    {{#if messages.success_msg}}
+                    <li>{{messages.success_msg}}</li>
+                    {{/if}}
+                </ul>
+
+                <ul>
+                    {{#if messages.error}}
+                    <li>
+                        {{messages.error}}
+                    </li>
+                    {{/if}}
+
+                    {{#if message}}
+                    <p>{{message}}</p>
+                    {{/if}}
+
+                </ul>
+
+                {{#if errors}}
+                <ul>
+                    {{#each errors}}
+                    <li>{{this}}</li>
+                    {{/each}}
+                </ul>
+                {{/if}}
+                <input type="text" id="name" name="name" placeholder="Nombre" required="">
+                <input type="email" id="email" name="email" placeholder="Email" required="">
+                <input type="password" id="password" name="password" placeholder="Contraseña" required="">
+                <button>Registrarse</button>
+            </form>
+        </div>
+
+        <div class="login">
+            <form action="/users/login" method="POST">
+                <label for="chk" aria-hidden="true">Entrar</label>
+                <input type="email" id="email" name="email" placeholder="Email" required="">
+                <input type="password" id="password" name="password" placeholder="Contraseña" required="">
+                <button>Entrar</button>
+            </form>
+        </div>
+    </div>
+</body>
+</body>
+
+</html>

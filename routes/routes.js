@@ -11,6 +11,7 @@ import hbs from 'hbs';
 import methodOverride from 'method-override'
 import multer from 'multer';
 import fs from 'fs';
+import swal from 'sweetalert';
 
 const router = Router()
 
@@ -78,6 +79,7 @@ router.post('/users/:id/avatar', upload.single('avatar'), function (req, res, ne
   return res.redirect('/profile');
 });
 
+
 // RUTAS
 
 router.get("/", (req, res) => {
@@ -102,8 +104,8 @@ router.get("/contacto", (req, res) => {
   res.render("contacto")
 })
 
-router.get("/index2", (req, res) => {
-  res.render("index2")
+router.get("/loginregistro", (req, res) => {
+  res.render("loginregistro")
 })
 
 router.get("/users/carto", checkNotAuthenticated, (req, res) => {
@@ -135,8 +137,8 @@ router.get("/users/logout", (req, res) => {
       // Handle error, if any
       console.error(err);
     }
-    res.render("login", { message: "Te has desconectado" });
-    res.redirect("/users/login");
+    res.render("loginregistro", { message: "Te has desconectado" });
+    res.redirect("/");
   });
 });
 
@@ -176,7 +178,7 @@ router.post("/registro", async (req, res) => {
     }
 
     if (errors.length > 0) {
-      return res.render("registro", { errors, name, email, password });
+      return res.render("loginregistro", { errors, name, email, password });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -188,7 +190,7 @@ router.post("/registro", async (req, res) => {
       },
     });
 
-    res.redirect("/mantenedor");
+    res.redirect("/loginregistro");
   } catch (error) {
     console.log(error);
     res.render("error", { error: "Problems creating user" });
@@ -201,7 +203,7 @@ router.post("/registro", async (req, res) => {
 
 router.post("/users/login",
   passport.authenticate("local", {
-    failureRedirect: "/users/login",
+    failureRedirect: "/loginregistro",
     failureFlash: true
   }),
   function (req, res) {
