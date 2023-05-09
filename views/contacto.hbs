@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/contacto.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
+    <title>Contacto</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+    <script type="text/javascript">
+        emailjs.init('vekMyWrD2bP6WfPCF')
+    </script>
+</head>
+
+<body>
+
+    <header id="header">
+        <div class="left-menu">
+            <li><i class="fa fa-map-o"></i> Proyecto Final Bootcamp</li>
+        </div>
+        <div class="right-menu">
+            <li><a href="/users/login">Ingresar</a></li>
+            <li><a href="/users/registro">Registro</a></li>
+            <li><a href="/">Inicio</a></li>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="row header">
+            <h1>CONTACTO &nbsp;</h1>
+            <h3>Llena esta formulario y nos contactaremos contigo</h3>
+        </div>
+        <div class="row body">
+            <form id="form">
+                <ul>
+                    <li>
+                        <p class="left">
+                            <label for="name">Nombre</label>
+                            <input type="text" name="from_name" id="from_name" placeholder="Nombre" />
+                        </p>
+                    </li>
+
+                    <li>
+                        <p class="left">
+                            <label for="asunto">Asunto</label>
+                            <input type="text" name="asunto" id="asunto" placeholder="Asunto" />
+                        </p>
+                    </li>
+
+                    <li>
+                        <p>
+                            <label for="email">Email <span class="req">*</span></label>
+                            <input type="email" name="email_id" id="email_id" placeholder="abc123@gmail.com" />
+                        </p>
+                    </li>
+                    <li>
+                        <div class="divider"></div>
+                    </li>
+                    <li>
+                        <label for="comments">Comentarios</label>
+                        <textarea cols="46" rows="3" name="message" id="message"></textarea>
+                    </li>
+
+                    <li>
+                        <input class="btn btn-submit" type="submit" id="button" value="Send Email" />
+                        <small>o presiona <strong>Enter</strong></small>
+                    </li>
+
+                </ul>
+            </form>
+        </div>
+    </div>
+
+
+    <script src="/js/email.js"></script>
+</body>
+
+</html>

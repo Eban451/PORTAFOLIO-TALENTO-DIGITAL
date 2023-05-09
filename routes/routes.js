@@ -81,7 +81,7 @@ router.post('/users/:id/avatar', upload.single('avatar'), function (req, res, ne
 // RUTAS
 
 router.get("/", (req, res) => {
-  res.render("index", { "titulo": "Página Personal" })
+  res.render("index", { "titulo": "Inicio" })
 })
 
 router.get("/users/login", checkAuthenticated, async (req, res) => {
@@ -98,6 +98,13 @@ router.get("/mapa", checkNotAuthenticated, (req, res) => {
   res.render("mapa")
 })
 
+router.get("/contacto", (req, res) => {
+  res.render("contacto")
+})
+
+router.get("/index2", (req, res) => {
+  res.render("index2")
+})
 
 router.get("/users/carto", checkNotAuthenticated, (req, res) => {
   // console.log(req.isAuthenticated());
@@ -134,7 +141,6 @@ router.get("/users/logout", (req, res) => {
 });
 
 router.get("/profile", checkNotAuthenticated, (req, res) => {
-  // console.log(req.isAuthenticated());
   res.render("profile", { user: req.user })
 })
 
