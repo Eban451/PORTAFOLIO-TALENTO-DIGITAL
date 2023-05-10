@@ -131,16 +131,6 @@ router.get("/admin/colab", checkNotAuthenticated, checkCategoria2, async (req, r
   res.render("landingcolab", { user: req.user, countsByTipo, countsByCreador })
 })
 
-router.get("/users/logout", (req, res) => {
-  req.logout(function (err) {
-    if (err) {
-      // Handle error, if any
-      console.error(err);
-    }
-    res.render("loginregistro", { message: "Te has desconectado" });
-    res.redirect("/");
-  });
-});
 
 router.get("/profile", checkNotAuthenticated, (req, res) => {
   res.render("profile", { user: req.user })
@@ -152,20 +142,20 @@ router.get("/profile", checkNotAuthenticated, (req, res) => {
 router.post("/registro", async (req, res) => {
   const { name, email, password } = req.body;
 
-  let errors = [];
+  let errors2 = [];
 
   if (!name || !email || !password) {
-    errors.push("Please enter all fields");
+    errors2.push("Please enter all fields");
   }
 
   if (password.length < 6) {
-    errors.push("La contraseña debe tener al menos de 6 caracteres");
+    errors2.push("La contraseña debe tener al menos de 6 caracteres");
   }
 
   // Validate email format using regular expression
   const emailRegex = /\S+@\S+\.\S+/;
   if (!emailRegex.test(email)) {
-    errors.push("Por favor ingrese un email válido");
+    errors2.push("Por favor ingrese un email válido");
   }
 
   try {
@@ -174,11 +164,11 @@ router.post("/registro", async (req, res) => {
     const data = await datos.json();
     const userExists = data.some((user) => user.email === email);
     if (userExists) {
-      errors.push("El email ingresado ya existe en nuestros registros");
+      errors2.push("El email ingresado ya existe en nuestros registros");
     }
 
-    if (errors.length > 0) {
-      return res.render("loginregistro", { errors, name, email, password });
+    if (errors2.length > 0) {
+      return res.render("loginregistro", { errors2, name, email, password });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -191,8 +181,8 @@ router.post("/registro", async (req, res) => {
     });
 
     res.redirect("/loginregistro");
-  } catch (error) {
-    console.log(error);
+  } catch (error2) {
+    console.log(error2);
     res.render("error", { error: "Problems creating user" });
   }
 });
@@ -392,6 +382,19 @@ router.put("/mantenedor2/:id", async (req, res) => {
 });
 
 // LOGOUT
+
+router.get("/users/logout", (req, res) => {
+  req.logout(function (err) {
+    if (err) {
+      // Handle error, if any
+      console.error(err);
+    }
+    res.render("loginregistro", { message: "Te has desconectado" });
+    res.redirect("/");
+  });
+});
+
+// ERROR
 
 router.get("*", (req, res) => {
   res.render("error")

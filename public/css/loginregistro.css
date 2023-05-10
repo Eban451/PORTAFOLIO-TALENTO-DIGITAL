@@ -88,3 +88,12 @@ button:hover{
 #chk:checked ~ .signup label{
 	transform: scale(.6);
 }
+
+
+.swal2-confirm {
+    display: block !important;
+    margin: 0 auto !important;
+    text-align: center !important;
+    line-height: normal !important;
+    width: auto !important;
+}

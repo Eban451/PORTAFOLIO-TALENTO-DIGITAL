@@ -25,13 +25,13 @@ const initialize = (passport) => {
             return done(null, user);
           } else {
             //password is incorrect
-            return done(null, false, { message: "Password is incorrect" });
+            return done(null, false, { message: "La contraseña es incorrecta" });
           }
         });
       } else {
         // No user
         return done(null, false, {
-          message: "No user with that email address",
+          message: "No existe un usuario con ese correo",
         });
       }
     } catch (err) {

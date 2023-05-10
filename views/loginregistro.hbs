@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/loginregistro.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Entrar o Registrarse</title>
 </head>
 
@@ -18,41 +19,54 @@
         <div class="signup">
             <form action="/registro" method="POST">
                 <label for="chk" aria-hidden="true">Registrarse</label>
-                <ul>
-                    {{#if errors}}
-                    {{#each errors}}
-                    <li>
-                        {{this.message}}
-                    </li>
-                    {{/each}}
-                    {{/if}}
-                </ul>
-
-                <ul>
-                    {{#if messages.success_msg}}
-                    <li>{{messages.success_msg}}</li>
-                    {{/if}}
-                </ul>
-
-                <ul>
-                    {{#if messages.error}}
-                    <li>
-                        {{messages.error}}
-                    </li>
-                    {{/if}}
-
-                    {{#if message}}
-                    <p>{{message}}</p>
-                    {{/if}}
-
-                </ul>
 
                 {{#if errors}}
-                <ul>
-                    {{#each errors}}
-                    <li>{{this}}</li>
-                    {{/each}}
-                </ul>
+                <script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        html: '<ul>{{#each errors}}<li>{{this.message}}</li>{{/each}}</ul>'
+                    });
+                </script>
+                {{/if}}
+
+                {{#if messages.success_msg}}
+                <script>
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        html: '<ul><li>{{messages.success_msg}}</li></ul>'
+                    });
+                </script>
+                {{/if}}
+
+                {{#if messages.error}}
+                <script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        html: '<ul><li>{{messages.error}}</li></ul>'
+                    });
+                </script>
+                {{/if}}
+
+                {{#if message}}
+                <script>
+                    Swal.fire({
+                        title: '',
+                        text: '{{message}}'
+                    });
+                </script>
+                {{/if}}
+
+                {{#if errors2}}
+                <script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        html: '<ul>{{#each errors2}}<li>{{this}}</li>{{/each}}</ul>'
+                    });
+                </script>
                 {{/if}}
                 <input type="text" id="name" name="name" placeholder="Nombre" required="">
                 <input type="email" id="email" name="email" placeholder="Email" required="">
@@ -70,7 +84,9 @@
             </form>
         </div>
     </div>
+
+
 </body>
-</body>
+
 
 </html>
