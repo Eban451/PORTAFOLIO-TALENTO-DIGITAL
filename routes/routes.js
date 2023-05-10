@@ -180,6 +180,9 @@ router.post("/registro", async (req, res) => {
       },
     });
 
+    // Set the success message in the session object
+    req.flash("success_msg", "User created successfully");
+
     res.redirect("/loginregistro");
   } catch (error2) {
     console.log(error2);

@@ -1,91 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/loginregistro.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <title>Entrar o Registrarse</title>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link
+            href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap"
+            rel="stylesheet">
+        <link rel="stylesheet" href="/css/loginregistro.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <title>Entrar o Registrarse</title>
+    </head>
 
-<body>
-    <div class="main">
+    <body>
+        <div class="main">
 
-        <input type="checkbox" id="chk" aria-hidden="true">
+            <input type="checkbox" id="chk" aria-hidden="true">
 
-        <div class="signup">
-            <form action="/registro" method="POST">
-                <label for="chk" aria-hidden="true">Registrarse</label>
-
-                {{#if errors}}
-                <script>
+            <div class="signup">
+                <form action="/registro" method="POST">
+                    <label for="chk" aria-hidden="true">Registrarse</label>
+                    {{#if errors}}
+                    <script>
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
                         html: '<ul>{{#each errors}}<li>{{this.message}}</li>{{/each}}</ul>'
                     });
                 </script>
-                {{/if}}
+                    {{/if}}
 
-                {{#if messages.success_msg}}
-                <script>
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success!',
-                        html: '<ul><li>{{messages.success_msg}}</li></ul>'
-                    });
-                </script>
-                {{/if}}
+                    {{#if messages.success_msg}}
+                    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            html: '<ul><li>{{messages.success_msg}}</li></ul>'
+        });
+    </script>
+                    {{/if}}
 
-                {{#if messages.error}}
-                <script>
+                    {{#if messages.error}}
+                    <script>
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
                         html: '<ul><li>{{messages.error}}</li></ul>'
                     });
                 </script>
-                {{/if}}
+                    {{/if}}
 
-                {{#if message}}
-                <script>
+                    {{#if message}}
+                    <script>
                     Swal.fire({
                         title: '',
                         text: '{{message}}'
                     });
                 </script>
-                {{/if}}
+                    {{/if}}
 
-                {{#if errors2}}
-                <script>
+                    {{#if errors2}}
+                    <script>
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
                         html: '<ul>{{#each errors2}}<li>{{this}}</li>{{/each}}</ul>'
                     });
                 </script>
-                {{/if}}
-                <input type="text" id="name" name="name" placeholder="Nombre" required="">
-                <input type="email" id="email" name="email" placeholder="Email" required="">
-                <input type="password" id="password" name="password" placeholder="Contraseña" required="">
-                <button>Registrarse</button>
-            </form>
+                    {{/if}}
+                    <input type="text" id="name" name="name"
+                        placeholder="Nombre" required="">
+                    <input type="email" id="email" name="email"
+                        placeholder="Email" required="">
+                    <input type="password" id="password" name="password"
+                        placeholder="Contraseña" required="">
+                    <button>Registrarse</button>
+                </form>
+            </div>
+
+            <div class="login">
+                <form action="/users/login" method="POST">
+                    <label for="chk" aria-hidden="true">Entrar</label>
+                    <input type="email" id="email" name="email"
+                        placeholder="Email" required="">
+                    <input type="password" id="password" name="password"
+                        placeholder="Contraseña" required="">
+                    <button>Entrar</button>
+                </form>
+            </div>
         </div>
 
-        <div class="login">
-            <form action="/users/login" method="POST">
-                <label for="chk" aria-hidden="true">Entrar</label>
-                <input type="email" id="email" name="email" placeholder="Email" required="">
-                <input type="password" id="password" name="password" placeholder="Contraseña" required="">
-                <button>Entrar</button>
-            </form>
-        </div>
-    </div>
-    
-    <script>
+        {{!-- <script>
         // Check if there are no Sweet Alerts on the page
         if (document.querySelectorAll('.swal2-container').length === 0) {
             Swal.fire({
@@ -95,8 +101,9 @@
             });
         }
     </script>
+        --}}
 
-</body>
+    </body>
 
 
 </html>
