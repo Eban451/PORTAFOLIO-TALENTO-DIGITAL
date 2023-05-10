@@ -18,6 +18,37 @@
 
     {{> navbar}}
 
+    {{!-- Alertas --}}
+
+    {{#if messages.success_msg}}
+                    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Listo!',
+            html: '<ul><li>{{messages.success_msg}}</li></ul>'
+        });
+        </script>
+        {{/if}}
+        
+    {{#if messages.success_msg2}}
+                    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Listo!',
+            html: '<ul><li>{{messages.success_msg2}}</li></ul>'
+        });
+        </script>
+        {{/if}}
+
+    {{#if messages.success_msg3}}
+                    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Listo!',
+            html: '<ul><li>{{messages.success_msg3}}</li></ul>'
+        });
+        </script>
+        {{/if}}    
     <main>
 
         <div class="control-panel">

@@ -346,6 +346,9 @@ router.post("/mantenedor2", async (req, res) => {
         "Content-Type": "application/json"
       }
     })
+
+    req.flash("success_msg", "Ubicación agregada correctamente");
+
     const datos = await fetch("http://localhost:4000/api/v1/puntos2");
     const data = await datos.json();
     res.render("mantenedor2", { "museums": data, user: req.user });
@@ -361,6 +364,9 @@ router.delete("/mantenedor2/:id", async (req, res) => {
   const { id } = req.params
   const resultado = await fetch("http://localhost:4000/api/v1/puntos/" + id,
     { method: 'DELETE' });
+
+  req.flash("success_msg2", "Ubicación borrada correctamente");
+
   if (resultado.status == 200) {
     const datos = await fetch("http://localhost:4000/api/v1/puntos2");
     const data = await datos.json();
@@ -384,7 +390,10 @@ router.put("/mantenedor2/:id", async (req, res) => {
         "Content-Type": "application/json"
       }
     })
-    const datos = await fetch(`http://localhost:4000/api/v1/puntos2/`);
+
+    req.flash("success_msg3", "Ubicación editada correctamente");
+
+    const datos = await fetch(`http://localhost:4000/api/v1/puntos2`);
     const data = await datos.json();
     res.render("mantenedor2", { "museums": data, user: req.user });
   } catch (e) {
