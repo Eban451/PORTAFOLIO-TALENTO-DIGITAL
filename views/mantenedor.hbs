@@ -1,94 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mantenedor</title>
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/mantenedor.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Mantenedor</title>
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+            />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
+            crossorigin="anonymous">
+        <link rel="stylesheet" href="/css/mantenedor.css">
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://kit.fontawesome.com/9bf55c7eb1.js" crossorigin="anonymous"></script>
+    </head>
 
-<body>
+    <body>
 
-    {{> navbar}}
-
-
+        {{> navbar}}
 
 
-    <!-- Form -->
-    <form id="formulario" class="row g-3" action="/mantenedor" method="POST">
-        <div class="col-auto">
-            <label for="in_name" class="visually-hidden">Nombre:</label>
-            <input type="text" class="form-control" id="in_name" name="name" placeholder="Nombre">
+        {{#if messages.success_msg}}
+                    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Listo!',
+            html: '<ul><li>{{messages.success_msg}}</li></ul>'
+        });
+        </script>
+        {{/if}}
+
+        {{#if messages.success_msg2}}
+                    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Listo!',
+            html: '<ul><li>{{messages.success_msg2}}</li></ul>'
+        });
+        </script>
+        {{/if}}
+
+        {{#if messages.success_msg3}}
+                    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Listo!',
+            html: '<ul><li>{{messages.success_msg3}}</li></ul>'
+        });
+        </script>
+        {{/if}}
+
+        <!-- Form -->
+        <form id="formulario" class="row g-3" action="/mantenedor"
+            method="POST">
+            <div class="col-auto">
+                <label for="in_name" class="visually-hidden">Nombre:</label>
+                <input type="text" class="form-control" id="in_name" name="name"
+                    placeholder="Nombre" required>
+            </div>
+            <div class="col-auto">
+                <label for="in_email" class="visually-hidden">Email:</label>
+                <input type="email" class="form-control" id="in_email"
+                    name="email" placeholder="Email" required>
+            </div>
+            <div class="col-auto">
+                <label for="in_password" class="visually-hidden">Contraseña:</label>
+                <input type="password" class="form-control" id="in_password"
+                    name="password" placeholder="Contraseña" required>
+            </div>
+            <div class="col-auto">
+                <label for="in_categoria" class="visually-hidden">Contraseña:</label>
+                <input type="text" class="form-control" id="in_categoria"
+                    name="categoria" placeholder="Categoria" required>
+            </div>
+            <div class="col-auto">
+                {{!-- <button id="btn_add"><span class="material-symbols-outlined">
+                        add
+                    </span></button> --}}
+                <button id="btn_add" type="submit" class="btn btn-primary" onclick="submitForm()"><i class="fa-solid fa-plus"></i></button>
+                {{!-- <button id="btn_edit" hidden><span
+                        class="material-symbols-outlined">
+                        edit
+                    </span></button> --}}
+                <button id="btn_edit" type="submit" class="btn btn-primary" hidden><i class="fa-regular fa-pen-to-square"></i></i></button>    
+            </div>
+        </form>
+
+
+        <!-- Table -->
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Contraseña</th>
+                        <th>ID Categoria</th>
+                        <th>Categoria</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each users}}
+                    <tr id="tr-{{id}}">
+                        <td>{{id}}</td>
+                        <td>{{name}}</td>
+                        <td>{{email}}</td>
+                        <td class="d-none d-sm-table-cell">{{password}}</td>
+                        <td>{{categoria_id}}</td>
+                        <td>{{nombrecategoria}}</td>
+                        <td><a href="#" onclick="editar({{id}})"><span
+                                    class="material-symbols-outlined">edit</span></a>
+                        </td>
+                        <td><a href="/mantenedor/{{id}}?_method=delete"><span
+                                    class="material-symbols-outlined">delete</span></a></td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
         </div>
-        <div class="col-auto">
-            <label for="in_email" class="visually-hidden">Email:</label>
-            <input type="email" class="form-control" id="in_email" name="email" placeholder="Email">
-        </div>
-        <div class="col-auto">
-            <label for="in_password" class="visually-hidden">Contraseña:</label>
-            <input type="password" class="form-control" id="in_password" name="password" placeholder="Contraseña">
-        </div>
-        <div class="col-auto">
-            <label for="in_categoria" class="visually-hidden">Contraseña:</label>
-            <input type="text" class="form-control" id="in_categoria" name="categoria" placeholder="Categoria">
-        </div>
-        <div class="col-auto">
-            <button id="btn_add"><span class="material-symbols-outlined">
-                    add
-                </span></button>
-            <button id="btn_edit" hidden><span class="material-symbols-outlined">
-                    edit
-                </span></button>
-        </div>
-    </form>
 
 
-    <!-- Table -->
-    <div class="table-responsive">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Email</th>
-                    <th>Contraseña</th>
-                    <th>ID Categoria</th>
-                    <th>Categoria</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each users}}
-                <tr id="tr-{{id}}">
-                    <td>{{id}}</td>
-                    <td>{{name}}</td>
-                    <td>{{email}}</td>
-                    <td class="d-none d-sm-table-cell">{{password}}</td>
-                    <td>{{categoria_id}}</td>
-                    <td>{{nombrecategoria}}</td>
-                    <td><a href="#" onclick="editar({{id}})"><span class="material-symbols-outlined">edit</span></a>
-                    </td>
-                    <td><a href="/mantenedor/{{id}}?_method=delete"><span
-                                class="material-symbols-outlined">delete</span></a></td>
-                </tr>
-                {{/each}}
-            </tbody>
-        </table>
-    </div>
-
-
-    <script>
+        <script>
         function editar(id) {
             const tr = document.getElementById(`tr-${id}`);
             const td_name = tr.children[1].textContent;
@@ -106,9 +149,8 @@
         }
 
     </script>
+        <script src="/js/alerts.js"></script>
 
-    <script src="/js/alerts.js"></script>
-
-</body>
+    </body>
 
 </html>

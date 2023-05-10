@@ -181,7 +181,7 @@ router.post("/registro", async (req, res) => {
     });
 
     // Set the success message in the session object
-    req.flash("success_msg", "User created successfully");
+    req.flash("success_msg", "Te has registrado correctamente");
 
     res.redirect("/loginregistro");
   } catch (error2) {
@@ -260,10 +260,14 @@ router.delete("/mantenedor/:id", async (req, res) => {
   const { id } = req.params
   const resultado = await fetch("http://localhost:4000/api/v1/users/" + id,
     { method: 'DELETE' });
+
+  req.flash("success_msg3", "Usuario borrado correctamente");
+
   if (resultado.status == 200) {
     const datos = await fetch("http://localhost:4000/api/v1/users");
     const data = await datos.json();
     res.render("mantenedor", { "users": data, user: req.user });
+
   } else {
     res.render("error", { "error": "Problemas al Eliminar registro" });
   }
@@ -284,6 +288,9 @@ router.post("/mantenedor", async (req, res) => {
         "Content-Type": "application/json"
       }
     })
+
+    req.flash("success_msg", "Usuario ingresado correctamente");
+
     const datos = await fetch("http://localhost:4000/api/v1/users");
     const data = await datos.json();
     res.render("mantenedor", { "users": data, user: req.user });
@@ -305,6 +312,9 @@ router.put("/mantenedor/:id", async (req, res) => {
         "Content-Type": "application/json"
       }
     })
+
+    req.flash("success_msg2", "Usuario editado correctamente");
+
     const datos = await fetch(`http://localhost:4000/api/v1/users/`);
     const data = await datos.json();
     res.render("mantenedor", { "users": data, user: req.user });
