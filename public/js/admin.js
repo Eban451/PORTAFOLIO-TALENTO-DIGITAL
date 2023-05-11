@@ -25,83 +25,83 @@ const main = () => {
 
     let markersVisible = true;
 
-    axios
-        .get("http://localhost:4000/api/v1/puntos")
-        .then((result) => {
-            // Add the data to the map as a source with ID 'places'
-            map.addSource("places", {
-                type: "geojson",
-                data: result.data,
-            });
+    // axios
+    //     .get("http://localhost:4000/api/v1/puntos")
+    //     .then((result) => {
+    //         // Add the data to the map as a source with ID 'places'
+    //         map.addSource("places", {
+    //             type: "geojson",
+    //             data: result.data,
+    //         });
 
-            // Add a layer to the map
-            map.addLayer({
-                id: "places",
-                type: "circle",
-                source: "places",
-                paint: {
-                    "circle-color": "#4264fb",
-                    "circle-radius": 6,
-                    "circle-stroke-width": 2,
-                    "circle-stroke-color": "#ffffff",
-                },
-            });
+    //         // Add a layer to the map
+    //         map.addLayer({
+    //             id: "places",
+    //             type: "circle",
+    //             source: "places",
+    //             paint: {
+    //                 "circle-color": "#4264fb",
+    //                 "circle-radius": 6,
+    //                 "circle-stroke-width": 2,
+    //                 "circle-stroke-color": "#ffffff",
+    //             },
+    //         });
 
-            console.log(result.data);
-        })
-        .catch((err) => console.error(err));
+    //         console.log(result.data);
+    //     })
+    //     .catch((err) => console.error(err));
 
-    axios
-        .get("http://localhost:4000/api/v1/puntos5")
-        .then((result) => {
-            // Add the data to the map as a source with ID 'places'
-            map.addSource("places2", {
-                type: "geojson",
-                data: result.data,
-            });
+    // axios
+    //     .get("http://localhost:4000/api/v1/puntos5")
+    //     .then((result) => {
+    //         // Add the data to the map as a source with ID 'places'
+    //         map.addSource("places2", {
+    //             type: "geojson",
+    //             data: result.data,
+    //         });
 
-            // Add a layer to the map
-            map.addLayer({
-                id: "places2",
-                type: "circle",
-                source: "places2",
-                paint: {
-                    "circle-color": "#4264fb",
-                    "circle-radius": 6,
-                    "circle-stroke-width": 2,
-                    "circle-stroke-color": "#ffffff",
-                },
-            });
+    //         // Add a layer to the map
+    //         map.addLayer({
+    //             id: "places2",
+    //             type: "circle",
+    //             source: "places2",
+    //             paint: {
+    //                 "circle-color": "#4264fb",
+    //                 "circle-radius": 6,
+    //                 "circle-stroke-width": 2,
+    //                 "circle-stroke-color": "#ffffff",
+    //             },
+    //         });
 
-            console.log(result.data);
-        })
-        .catch((err) => console.error(err));
+    //         console.log(result.data);
+    //     })
+    //     .catch((err) => console.error(err));
 
-    axios
-        .get("http://localhost:4000/api/v1/puntos6")
-        .then((result) => {
-            // Add the data to the map as a source with ID 'places'
-            map.addSource("places3", {
-                type: "geojson",
-                data: result.data,
-            });
+    // axios
+    //     .get("http://localhost:4000/api/v1/puntos6")
+    //     .then((result) => {
+    //         // Add the data to the map as a source with ID 'places'
+    //         map.addSource("places3", {
+    //             type: "geojson",
+    //             data: result.data,
+    //         });
 
-            // Add a layer to the map
-            map.addLayer({
-                id: "places3",
-                type: "circle",
-                source: "places3",
-                paint: {
-                    "circle-color": "#4264fb",
-                    "circle-radius": 6,
-                    "circle-stroke-width": 2,
-                    "circle-stroke-color": "#ffffff",
-                },
-            });
+    //         // Add a layer to the map
+    //         map.addLayer({
+    //             id: "places3",
+    //             type: "circle",
+    //             source: "places3",
+    //             paint: {
+    //                 "circle-color": "#4264fb",
+    //                 "circle-radius": 6,
+    //                 "circle-stroke-width": 2,
+    //                 "circle-stroke-color": "#ffffff",
+    //             },
+    //         });
 
-            console.log(result.data);
-        })
-        .catch((err) => console.error(err));
+    //         console.log(result.data);
+    //     })
+    //     .catch((err) => console.error(err));
 
 
     // Create a popup, but don't add it to the map yet.

@@ -226,7 +226,7 @@ function checkNotAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   }
-  res.redirect("/users/login");
+  res.redirect("/loginregistro");
 }
 
 function checkCategoria1(req, res, next) {
