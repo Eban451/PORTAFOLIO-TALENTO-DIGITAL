@@ -1,5 +1,4 @@
 import { Strategy as LocalStrategy } from "passport-local";
-import { pool } from "./dbConfig.js";
 import bcrypt from "bcrypt";
 
 const initialize = (passport) => {
@@ -12,7 +11,7 @@ const initialize = (passport) => {
   }
   
   const authenticateUser = async (email, password, done) => {
-    console.log(email, password);
+    // console.log(email, password);
     try {
       const user = await fetchUser(email);
   
@@ -24,12 +23,12 @@ const initialize = (passport) => {
           if (isMatch) {
             return done(null, user);
           } else {
-            //password is incorrect
+            
             return done(null, false, { message: "La contraseña es incorrecta" });
           }
         });
       } else {
-        // No user
+        
         return done(null, false, {
           message: "No existe un usuario con ese correo",
         });
@@ -46,14 +45,13 @@ const initialize = (passport) => {
       authenticateUser
     )
   );
-  // Stores user details inside session. serializeUser determines which data of the user
-  // object should be stored in the session. The result of the serializeUser method is attached
-  // to the session as req.session.passport.user = {}. Here for instance, it would be (as we provide
-  //   the user id as the key) req.session.passport.user = {id: 'xyz'}
+  // Almacena los detalles del usuario dentro de la sesión. serializeUser determina qué datos del objeto de usuario deben
+  // almacenarse en la sesión. El resultado del método serializeUser se adjunta a la sesión como req.session.passport.user = {}.
+  // Aquí, por ejemplo, sería (ya que proporcionamos la identificación del usuario como clave) req.session.passport.user = {id: 'xyz'}
   passport.serializeUser((user, done) => done(null, user.id));
 
-  // In deserializeUser that key is matched with the in memory array / database or any data resource.
-  // The fetched object is attached to the request object as req.user
+  // En deserializeUser, esa clave se compara con la matriz/base de datos en memoria o cualquier recurso de datos.
+  // El objeto obtenido se adjunta al objeto de solicitud como req.user
 
   passport.deserializeUser(async (id, done) => {
     try {

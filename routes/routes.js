@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { pool } from "../dbConfig.js";
 import express from "express";
 import bodyParser from "body-parser";
 import passport from "passport";
@@ -7,11 +6,9 @@ import cookieParser from "cookie-parser";
 import session from "express-session";
 import flash from "express-flash";
 import bcrypt from 'bcrypt';
-import hbs from 'hbs';
 import methodOverride from 'method-override'
 import multer from 'multer';
 import fs from 'fs';
-import swal from 'sweetalert';
 
 const router = Router()
 
@@ -33,9 +30,9 @@ router.use(session({
 
 }))
 
-// Funtion inside passport which initializes passport
+// Función dentro de passport que inicializa el pass
 router.use(passport.initialize());
-// Store our variables to be persisted across the whole session. Works with app.use(Session) above
+// Almacenar nuestras variables para que persistan durante toda la sesión. Funciona con router.use(Session) de más arriba arriba
 router.use(passport.session());
 
 router.use(flash());
@@ -45,8 +42,11 @@ router.use(passport.session())
 
 router.use(methodOverride("_method", { methods: ["GET", "POST"] }));
 
-// SUBIR AVATAR USERS
 
+// SUBIR AVATAR USERS
+// sube el archivo y con el fs. compara si existe y lo sobreescribe si existiería un
+// archivo con el mismo nombre para no llenvar el servidor cada vez que un usario
+// sube una nueva foto de avatar
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -67,7 +67,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage })
 
 router.post('/users/:id/avatar', upload.single('avatar'), function (req, res, next) {
-  // req.file contains information about the uploaded file
+  // req.file contiene información sobre el archivo cargado
   if (!req.file) {
     return res.status(400).json({ message: 'Please upload a file' });
   }
@@ -75,7 +75,7 @@ router.post('/users/:id/avatar', upload.single('avatar'), function (req, res, ne
   const avatarFilename = req.file.filename;
   const avatarUrl = '/img/' + avatarFilename;
 
-  // Redirect to the profile page
+  
   return res.redirect('/profile');
 });
 
@@ -86,11 +86,11 @@ router.get("/", (req, res) => {
   res.render("index", { "titulo": "Inicio" })
 })
 
-router.get("/users/login", checkAuthenticated, async (req, res) => {
-  const resultado = await fetch("http://localhost:4000/api/v1/users");
-  const data = await resultado.json();
-  res.render("login", { "users": data });
-});
+// router.get("/users/login", checkAuthenticated, async (req, res) => {
+//   const resultado = await fetch("http://localhost:4000/api/v1/users");
+//   const data = await resultado.json();
+//   res.render("login", { "users": data });
+// });
 
 router.get("/users/registro", checkAuthenticated, (req, res) => {
   res.render("registro")
@@ -104,7 +104,7 @@ router.get("/contacto", (req, res) => {
   res.render("contacto")
 })
 
-router.get("/loginregistro", (req, res) => {
+router.get("/loginregistro",checkAuthenticated, (req, res) => {
   res.render("loginregistro")
 })
 
@@ -142,35 +142,40 @@ router.get("/profile", checkNotAuthenticated, (req, res) => {
 router.post("/registro", async (req, res) => {
   const { name, email, password } = req.body;
 
+  // Acá se guardan los mensajes de errores
   let errors2 = [];
 
+  //comprueba que se hayan enviado todos los datos necesarios para el registro
   if (!name || !email || !password) {
     errors2.push("Please enter all fields");
   }
 
+  // Valida si la contraseña tiene más de 6 caracteres 
   if (password.length < 6) {
     errors2.push("La contraseña debe tener al menos de 6 caracteres");
   }
 
-  // Validate email format using regular expression
+  // Valida el formato de correo electrónico usando una expresión regular
   const emailRegex = /\S+@\S+\.\S+/;
   if (!emailRegex.test(email)) {
     errors2.push("Por favor ingrese un email válido");
   }
 
   try {
-    // Check if email already exists in database
+    // Checkea si el email ya existe en la base de datos
     const datos = await fetch("http://localhost:4000/api/v1/users3");
     const data = await datos.json();
     const userExists = data.some((user) => user.email === email);
     if (userExists) {
       errors2.push("El email ingresado ya existe en nuestros registros");
     }
-
+ 
+    // Si hay 1 error o más envía el o los mensajes de error al front
     if (errors2.length > 0) {
       return res.render("loginregistro", { errors2, name, email, password });
     }
-
+  
+    // Envía los datos a la base de datos si no existe ningún error
     const hashedPassword = await bcrypt.hash(password, 10);
     const userResponse = await fetch("http://localhost:4000/api/v1/users3", {
       method: "POST",
@@ -180,7 +185,7 @@ router.post("/registro", async (req, res) => {
       },
     });
 
-    // Set the success message in the session object
+    // Mensaje si se registra correctamente
     req.flash("success_msg", "Te has registrado correctamente");
 
     res.redirect("/loginregistro");
@@ -193,6 +198,9 @@ router.post("/registro", async (req, res) => {
 
 
 // LOGIN Y AUTENTIFICACIÓN !
+
+// Comprueba si existe el usario y contraseña según las funciones en PassportCongif.js
+// y redirige según la categoría de usuario
 
 router.post("/users/login",
   passport.authenticate("local", {
@@ -209,6 +217,7 @@ router.post("/users/login",
   }
 );
 
+// Redirige según la categoría de usuario
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     if (req.user.categoria === 1) {
@@ -222,6 +231,7 @@ function checkAuthenticated(req, res, next) {
   next();
 }
 
+// Sino está autenticado se redirige al login
 function checkNotAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
@@ -229,20 +239,22 @@ function checkNotAuthenticated(req, res, next) {
   res.redirect("/loginregistro");
 }
 
+// Redirige según la categoría de usuario
 function checkCategoria1(req, res, next) {
   if (req.isAuthenticated() && req.user.categoria === 1) {
     return next();
   } else if (req.isAuthenticated() && req.user.categoria === 2) {
     return res.redirect("/admin/colab");
   }
-  res.redirect("/users/carto");
+  res.redirect("/mapa");
 }
 
+// Redirige según la categoría de usuario
 function checkCategoria2(req, res, next) {
   if (req.isAuthenticated() && (req.user.categoria === 1 || req.user.categoria === 2)) {
     return next();
   }
-  res.redirect("/users/carto");
+  res.redirect("/mapa");
 }
 
 // Mantenedor Usuarios Página
@@ -416,7 +428,7 @@ router.get("/users/logout", (req, res) => {
   });
 });
 
-// ERROR
+// Pagina ERROR
 
 router.get("*", (req, res) => {
   res.render("error")

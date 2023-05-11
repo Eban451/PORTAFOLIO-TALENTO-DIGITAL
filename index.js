@@ -18,14 +18,8 @@ app.set("view engine", "hbs")
 app.use(express.static("public"))
 app.use(indexRoutes)
 
+// Registra el directorio "views/partials" como el directorio que contiene las plantillas parciales utilizadas por Handlebars en la aplicación.
 hbs.registerPartials(join(__dirname,"views/partials"))
-
-
-// app.listen(3000, function(){
-//     console.log("Servidor en puerto 3000")
-// })
-
-
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

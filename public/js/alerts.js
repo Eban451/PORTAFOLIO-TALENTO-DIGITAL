@@ -1,3 +1,5 @@
+// Alerta al clickear botón desconcetarse
+
 function showAlert() {
     Swal.fire({
         title: '¿Estás seguro?',
@@ -19,7 +21,3 @@ function showAlert() {
         }
     });
 }
-
-// AL AGRESAR USARIO EN MANTENEDOR
-
-
