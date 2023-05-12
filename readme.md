@@ -69,3 +69,7 @@ Mantenedor puntos
 Mantenedor puntos ingreso datos
 
 ![App Screenshot](https://github.com/Eban451/Proyecto-Personal-Eban/blob/master/screenshots/IDM2.png?raw=true)
+
+Y dejo un imagen del mapa en funcionamiento:
+
+![App Screenshot](https://github.com/Eban451/Proyecto-Personal-Eban/blob/master/screenshots/Mapa.png?raw=true)
