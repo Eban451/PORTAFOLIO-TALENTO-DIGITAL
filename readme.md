@@ -56,3 +56,16 @@ El proyecto se puede correr de esta manera igualmente
 ```bash
   npm run dev 
 ```
+Adjunto algunas imagenes de los mantenedores:
+
+Mantenedor Usuarios
+
+![App Screenshot](https://github.com/Eban451/Proyecto-Personal-Eban/blob/master/screenshots/Mantenedor1.png?raw=true)
+
+Mantenedor puntos
+
+![App Screenshot](https://github.com/Eban451/Proyecto-Personal-Eban/blob/master/screenshots/Mantenedor2.png?raw=true)
+
+Mantenedor puntos ingreso datos
+
+![App Screenshot](https://github.com/Eban451/Proyecto-Personal-Eban/blob/master/screenshots/IDM2.png?raw=true)
