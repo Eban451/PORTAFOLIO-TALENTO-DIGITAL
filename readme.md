@@ -10,7 +10,7 @@ Esteban Zuñiga (Eban451)
 
 
 # Repositorio
-[https://github.com/Eban451/PORTAFOLIO-TALENTO-DIGITAL-API.git]
+[https://github.com/Eban451/PORTAFOLIO-TALENTO-DIGITAL.git]
 
 
 ## Para que el proyecto funcione correctamente es necesario la instalación node.js, y mediante terminal con el comando "npm i" se deben instalar las siguientes dependencias:
@@ -65,7 +65,7 @@ app.listen(PORT, () => {
 ```
 Clonar proyecto
 ```bash
-  git clone https://github.com/Eban451/PORTAFOLIO-TALENTO-DIGITAL-API.git
+  git clone https://github.com/Eban451/PORTAFOLIO-TALENTO-DIGITAL.git
 ```
 El proyecto se puede correr de esta manera igualmente
 ```bash
