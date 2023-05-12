@@ -1,12 +1,13 @@
 "use strict";
 
-
+// Token de acceso a la API de Mapbox
 const MAPBOX_ACCESS_TOKEN = "pk.eyJ1IjoiZWJhbjQ1MSIsImEiOiJjbGRqZHMxdjMxbDcwM3Zud3R4MzlzcXpyIn0.j9_EDxaSrv_BG237kKutGQ";
 // Mapbox Docs example - https://docs.mapbox.com/mapbox-gl-js/example/simple-map/
 
 // This function is run on window 'load' event, once all scripts in the html file are loaded
+// Esta función se ejecuta en el evento window 'load', una vez que se cargan todos los scripts en el archivo html
 const main = () => {
-    // Set the Mapbox API access token
+    // Establecer el Establecer el token de acceso a la API de Mapbox
     mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
 
     const map = new mapboxgl.Map({
@@ -25,92 +26,13 @@ const main = () => {
 
     let markersVisible = true;
 
-    // axios
-    //     .get("http://localhost:4000/api/v1/puntos")
-    //     .then((result) => {
-    //         // Add the data to the map as a source with ID 'places'
-    //         map.addSource("places", {
-    //             type: "geojson",
-    //             data: result.data,
-    //         });
-
-    //         // Add a layer to the map
-    //         map.addLayer({
-    //             id: "places",
-    //             type: "circle",
-    //             source: "places",
-    //             paint: {
-    //                 "circle-color": "#4264fb",
-    //                 "circle-radius": 6,
-    //                 "circle-stroke-width": 2,
-    //                 "circle-stroke-color": "#ffffff",
-    //             },
-    //         });
-
-    //         console.log(result.data);
-    //     })
-    //     .catch((err) => console.error(err));
-
-    // axios
-    //     .get("http://localhost:4000/api/v1/puntos5")
-    //     .then((result) => {
-    //         // Add the data to the map as a source with ID 'places'
-    //         map.addSource("places2", {
-    //             type: "geojson",
-    //             data: result.data,
-    //         });
-
-    //         // Add a layer to the map
-    //         map.addLayer({
-    //             id: "places2",
-    //             type: "circle",
-    //             source: "places2",
-    //             paint: {
-    //                 "circle-color": "#4264fb",
-    //                 "circle-radius": 6,
-    //                 "circle-stroke-width": 2,
-    //                 "circle-stroke-color": "#ffffff",
-    //             },
-    //         });
-
-    //         console.log(result.data);
-    //     })
-    //     .catch((err) => console.error(err));
-
-    // axios
-    //     .get("http://localhost:4000/api/v1/puntos6")
-    //     .then((result) => {
-    //         // Add the data to the map as a source with ID 'places'
-    //         map.addSource("places3", {
-    //             type: "geojson",
-    //             data: result.data,
-    //         });
-
-    //         // Add a layer to the map
-    //         map.addLayer({
-    //             id: "places3",
-    //             type: "circle",
-    //             source: "places3",
-    //             paint: {
-    //                 "circle-color": "#4264fb",
-    //                 "circle-radius": 6,
-    //                 "circle-stroke-width": 2,
-    //                 "circle-stroke-color": "#ffffff",
-    //             },
-    //         });
-
-    //         console.log(result.data);
-    //     })
-    //     .catch((err) => console.error(err));
-
-
-    // Create a popup, but don't add it to the map yet.
+    // Crea los popups pero no los carga en el mapa.
     const popup = new mapboxgl.Popup({
         closeButton: false,
         closeOnClick: false
     });
 
-    //MAP ONLOAD 1
+    //Museos ONLOAD 1
 
     map.on('load', () => {
         // Add event listeners for mouseenter and mouseleave on the 'places' layer
@@ -143,7 +65,7 @@ const main = () => {
         });
     });
 
-    //MAP ONLOAD 2
+    //Parques y Plazas ONLOAD 2
 
     map.on('load', () => {
         // Add event listeners for mouseenter and mouseleave on the 'places' layer
@@ -176,7 +98,7 @@ const main = () => {
         });
     });
 
-    // MAP ONLOAD 3
+    // Servicios ONLOAD 3
 
     map.on('load', () => {
         // Add event listeners for mouseenter and mouseleave on the 'places' layer
@@ -211,24 +133,24 @@ const main = () => {
 
     // FUNCIONAMIENTO BOTONES
 
-    // Get the button element by id
+    // Toma los elementos por ID
     const toggleMarkersButton = document.getElementById('toggleMarkers');
     const toggleMarkersButton2 = document.getElementById('toggleMarkers2');
     const toggleMarkersButton3 = document.getElementById('toggleMarkers3');
 
-    // Add event listener to the button MUSEOS
+    // Agrega event listener a los button MUSEOS
     toggleMarkersButton.addEventListener('click', () => {
-        // Check if the 'places' layer is currently visible
+        // Chequea si 'places' está activo
         const placesLayer = map.getLayer('places');
         if (placesLayer) {
-            // If the layer is visible, remove it from the map
+            // Si es visible, lo pone invisible
             map.removeLayer('places');
             map.removeSource('places');
 
-            // Remove the "active" class from the button
+            // Remueve el "active" clase de los botones
             toggleMarkersButton.classList.remove('active');
         } else {
-            // If the layer is not visible, fetch the GeoJSON data and add it to the map as a source and layer
+            // Si la capa no es visible hace un fetch y la trae de vuelta al mapa
             axios
                 .get("http://localhost:4000/api/v1/puntos")
                 .then((result) => {
@@ -255,7 +177,7 @@ const main = () => {
                 })
                 .catch((err) => console.error(err));
 
-            // Add the "active" class to the button
+            // Agrega la clase "active" al botón
             toggleMarkersButton.classList.add('active');
         }
     });
@@ -386,9 +308,9 @@ const main = () => {
 
     // this is where the code for the next step will go
 
-    // create a function to make a directions request
+    //  Crea la función para hacer un requerimiento de direcciones
     async function getRoute(end) {
-        // make a directions request using cycling profile
+        // make a directions request using walking profile
         // an arbitrary start will always be the same
         // only the end or destination will change
         const query = await fetch(
