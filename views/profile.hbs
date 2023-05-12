@@ -25,8 +25,9 @@
       <div class="profile-card__cnt js-profile-cnt">
         <div class="profile-card__name">{{ user.name }}</div>
         <div class="profile-card__txt"><strong>{{ user.email }}</strong></div>
+        <p>La extensión del archivo de imagen debe ser ".jpg"</p>
         <div class="profile-card-ctr">
-
+          
           <form action="/users/{{ user.id }}/avatar" method="POST" enctype="multipart/form-data">
             <input type="file" name="avatar">
             <button type="submit" class="profile-card__button button--orange">Change Avatar</button>

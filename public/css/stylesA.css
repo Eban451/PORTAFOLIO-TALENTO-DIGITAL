@@ -105,3 +105,13 @@
     padding-left: 1.2vw;
 }
 
+.control-panel {
+    top: 50%;
+    left: 50%;
+  }
+  
+  p {
+    text-align: center;
+    margin-top: 50px; /* Adjust this value to change the distance between the button and the paragraph */
+  }
+  
