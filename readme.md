@@ -27,6 +27,8 @@ Esteban Zuñiga (Eban451)
 - bcrypt
 - method-override
 - multer
+- dotenev
+- passport-local
 
 Igualmente se deben primero desplegar la API, disponible en: https://github.com/Eban451/PORTAFOLIO-TALENTO-DIGITAL-API.git
 Y luego, como se menciona en la API, crea un usuario master, que es el que puede cambiar la categoría de otros usuarios,
@@ -37,6 +39,19 @@ Recordar, que se debe crear al usuario de esta forma luego de poner en marcha la
 
 ```bash
 INSERT INTO users(name,email,categoria,password) VALUES('Master','master123@gmail.com',1,'$2b$10$LTx/J3o9heeA1BZzpYd5U.pjcWiyv1TU0TRQWh3IOk8RJXXiR7PTa');
+```
+
+Se deben ingresar las variables de entor propias en el .evn
+Para conectarse a la Base de datos y poder configurar el archivo db.Config.js
+
+```bash
+DB_USER=
+DB_PASSWORD=
+DB_HOST=
+DB_PORT=
+DB_DATABASE=
+
+SESSION_SECRET=
 ```
 
 Esta aplicación se abre por defecto en el puerto 3000
@@ -68,8 +83,43 @@ Mantenedor puntos
 
 Mantenedor puntos ingreso datos
 
-![App Screenshot](https://github.com/Eban451/Proyecto-Personal-Eban/blob/master/screenshots/IDM2.jpg?raw=true)
+![App Screenshot](https://github.com/Eban451/Proyecto-Personal-Eban/blob/master/screenshots/IDM2.JPG?raw=true)
 
 Y dejo un imagen del mapa en funcionamiento:
 
 ![App Screenshot](https://github.com/Eban451/Proyecto-Personal-Eban/blob/master/screenshots/Mapa.png?raw=true)
+
+## Rúbrica de evaluación: 
+Por último dejo las ubicaciones de los puntos de la rúbrica de evaluación:
+
+#### Consultas base de datos
+- https://github.com/Eban451/PORTAFOLIO-TALENTO-DIGITAL-API.git
+
+#### Algoritmo de cálculo y manipulación de archivos de texto
+- Todos los puntos están a lo largo de todos los archivos de la aplicación
+- Manipulación de archivos
+  - [PORTAFOLIO-TALENTO-DIGITAL: profile.hbs y funcionalidad en routes.js desde la línea 51 a 80]
+
+#### Página web y html
+- Todos los puntos están a lo largo de todos los archivos de la aplicación
+
+#### Lenguaje Node
+- Inclusión de paquetes y librerías de usuario 
+- Agrupación del código y separación por funcionalidad
+- Utilización de funciones asíncronas
+- Lectura de parámetros de entrada
+   - Todos los puntos anteriores están a lo largo de todos los archivos de la aplicación
+- Funcionamiento general del aplicativo
+   - [PORTAFOLIO-TALENTO-DIGITAL: ver hbs mantenedor.hbs, mantenedor.hbs y mapa.hbs, igualmente ver loginregistro.hbs]
+#### Conexión a base de datos
+- Manejo de conexión a base de datos desde Node
+   - Ver: https://github.com/Eban451/PORTAFOLIO-TALENTO-DIGITAL-API.git
+   - [PORTAFOLIO-TALENTO-DIGITAL: ver dbConfig.js]
+- Manejo y ejecución de consultas desde Node
+   - Ver: https://github.com/Eban451/PORTAFOLIO-TALENTO-DIGITAL-API.git
+   - [PORTAFOLIO-TALENTO-DIGITAL: ver rutas y mantenedores en routes.js]
+
+#### Uso de Express
+- Creación servicio Rest con Express
+   - Ver: https://github.com/Eban451/PORTAFOLIO-TALENTO-DIGITAL-API.git
+   - [PORTAFOLIO-TALENTO-DIGITAL: ver Registro, Login y Mantenedores en routes.js desde la línea 140 hasta la 429]
