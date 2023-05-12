@@ -48,4 +48,11 @@ app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });
 ```
-
+Clonar proyecto
+```bash
+  git clone https://github.com/Eban451/PORTAFOLIO-TALENTO-DIGITAL-API.git
+```
+El proyecto se puede correr de esta manera igualmente
+```bash
+  npm run dev 
+```
